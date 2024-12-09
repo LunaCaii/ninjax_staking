@@ -264,9 +264,6 @@ html,body {
     justify-content: space-between;
     align-items: center;
     gap: 12px;
-    .logo {
-      img {}
-    }
     .name {
       font-family: var(--font-family-nokora);
       font-size: var(--font-size-20);
@@ -276,6 +273,7 @@ html,body {
     }
   }
   .label-value {
+    width: 30%;
     .value {
       font-family: var(--font-family-nokora);
       font-size: var(--font-size-18);
@@ -284,6 +282,19 @@ html,body {
       color: var(--color-ffffff);
       &.orange-text {
         color: var(--color-ffbf6e);
+      }
+      .icon-time {
+        display: inline-block;
+        vertical-align: middle;
+        width: 15px;
+        height: 15px;
+        background: url('../../assets/images/icon-time.svg');
+        background-repeat: no-repeat;
+        margin-right: 6px;
+      }
+      .text-time {
+        display: inline-block;
+        vertical-align: middle;
       }
     }
     .label {

@@ -5,6 +5,7 @@
   --color-ffffff_50: rgba(255,255,255, 0.5);
   --color-ffbf6e: #ffbf6e;
   --color-232027: #232027;
+  --color-ffdd85: #ffdd85;
   --color-ffdd86: #ffdd86;
   --color-ff9634: #ff9634;
   --color-424144: #424144;
@@ -39,7 +40,9 @@
   --font-size-16: 16px;
   --font-size-15: 15px;
   --font-size-14: 14px;
-
+  --font-size-12: 12px;
+  
+  --line-height-9: 9px;
   --line-height-12: 12px;
   --line-height-19: 19px;
   --line-height-20: 20px;
@@ -99,5 +102,17 @@
       border: 1px solid var(--color-a4a4a4);
       color: var(--color-6b696d);
     }
+  }
+  .table-btn-ffdd85 {
+    background: transparent;
+    border: 1px solid var(--color-ffdd85);
+    font-family: var(--font-family-nokora);
+    font-size: var(--font-size-12);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-9);
+    border-radius: var(--border-radius-15);
+    color: var(--color-ffdd85);
+    padding: 10.5px 16px;
+    min-width: 68px;
   }
 }

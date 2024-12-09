@@ -56,7 +56,7 @@ const EpochHistoryPanel = (props: any) => {
       <h2>Epoch History</h2>
       <div className='list-container'>
         { data.map((item: any) => {
-          return <div className='list-table'>
+          return <div className='list-table'  key={`ep-${item.id}`}>
             <div className='list-tr thead'>
               <div className='width-left'>
                 <div className='width-td1'>

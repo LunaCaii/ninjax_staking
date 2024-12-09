@@ -56,7 +56,7 @@ const UnclaimedPanel = (props: any) => {
       <h2>You have unclaimed Rewards</h2>
       <div className='list-container'>
         { data.map((item: any) => {
-          return <div className={`list-table isOpen-${String(item.isOpen)}`}>
+          return <div className={`list-table`}  key={`up-${item.id}`}>
             <div className='list-tr thead'>
               <div className='width-left'>
                 <div className='width-td1'>

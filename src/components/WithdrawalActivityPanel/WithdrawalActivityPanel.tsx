@@ -23,6 +23,27 @@ const WithdrawalActivityPanel = (props: any) => {
       name: 'NINJAX',
       requestAmount: 8.2,
       claimTime: ''
+    },
+    {
+      id: 3,
+      imageUrl: ninjaxSvg,
+      name: 'NINJAX',
+      requestAmount: 8.2,
+      claimTime: ''
+    },
+    {
+      id: 4,
+      imageUrl: ninjaxSvg,
+      name: 'NINJAX',
+      requestAmount: 8.2,
+      claimTime: ''
+    },
+    {
+      id: 5,
+      imageUrl: ninjaxSvg,
+      name: 'NINJAX',
+      requestAmount: 8.2,
+      claimTime: ''
     }
   ]
 
@@ -38,24 +59,24 @@ const WithdrawalActivityPanel = (props: any) => {
       <div className='list-container'>
         { 
           data.map((item: any) => {
-            return <div className='list-each-item'>
+            return <div className='list-each-item' key={`ac-${item.id}`}>
               <div className='com-staking-item-box'>
                 <div className='logo-name'>
                   <div className='logo'>
-                    <img src={ninjaxSvg} alt='' />
+                    <img src={item.imageUrl} alt='' />
                   </div>
-                  <div className='name'>NINJAX</div>
+                  <div className='name'>{item.name}</div>
                 </div>
                 <div className='label-value'>
-                  <p className='value'>10.2</p>
+                  <p className='value'>{item.requestAmount}</p>
                   <p className='label'>Request Amount</p>
                 </div>
                 <div className='label-value'>
-                  <p className='value'>- -</p>
+                  <p className='value'><i className='icon-time'></i><span className='text-time'>{item.claimTime || '--'}</span></p>
                   <p className='label'>Claim Time</p>
                 </div>
-                <div className='harvest-btn'>
-                  <button className='harvest table-btn-ffbf6e'>Harvest</button>
+                <div className='btn-claim'>
+                  <button className='table-btn-ffdd85'>Claim</button>
                 </div>
               </div>
             </div>

@@ -7,10 +7,10 @@ const {
   REACT_APP_CHAIN_MAIN_SYMBOL
 } = process.env
 
-const abeyChain = {
+const tabiChain = {
   id: Number(REACT_APP_CHAIN_ID),
   name: `${REACT_APP_CHAIN_NAME}`,
-  iconUrl: 'https://abeyscan.com/assers/img/logo.0ecbc0d8.png',
+  iconUrl: 'https://testnetv2.tabiscan.com/favicon/favicon.ico',
   nativeCurrency: { name: `${REACT_APP_CHAIN_MAIN_SYMBOL}`, symbol: `${REACT_APP_CHAIN_MAIN_SYMBOL}`, decimals: 18 },
   rpcUrls: {
     default: { http: [`${REACT_APP_CHAIN_RPC}`] },
@@ -18,9 +18,9 @@ const abeyChain = {
 } as const satisfies Chain;
 
 export const config = getDefaultConfig({
-  appName: 'interapp_frontend',
-  projectId: '6ff288b9af4d3b7f0b7838342c3b4efd',
-  chains: [abeyChain],
+  appName: 'ninjax_frontend',
+  projectId: '73123f0f99f61cd3ca63cff8b628a188',
+  chains: [tabiChain],
   ssr: false,
 })
 
@@ -31,8 +31,8 @@ export const getLanguage: any = () => {
 }
 
 // export const config = createConfig({
-//   chains: [abeyChain],
+//   chains: [tabiChain],
 //   transports: {
-//     [abeyChain.id]: http(),
+//     [tabiChain.id]: http(),
 //   },
 // })

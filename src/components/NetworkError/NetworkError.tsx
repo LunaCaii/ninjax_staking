@@ -8,15 +8,11 @@ import { useAccount } from 'wagmi'
 const NetworkError = (props: any) => {
   const { t }:any = useTranslation()
   const { isConnected } = useAccount()
-  // const network = {
-  //   title: t('Network Alert'),
-  //   contentText: t('To utilize this dashboard, connect to the NuLink network environment.'),
-  //   btnText: t('Switch network'),
-  // }
+ 
   const network = {
-    title: t('Wallet not connected'),
-    contentText: t('Please keep the internet connected and connect to your wallet to continue.'),
-    btnText: t('Connect Wallet')
+    title: 'Wallet not connected',
+    contentText: 'Please keep the internet connected and connect to your wallet to continue.',
+    btnText: 'Connect Wallet'
   }
   if (isConnected) return <></>
   return (

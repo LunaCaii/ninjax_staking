@@ -4,16 +4,17 @@ import './styles/Header.scss'
 import { useTranslation } from 'react-i18next'
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount, useDisconnect } from 'wagmi'
-import { useAccountEffect } from 'wagmi'
-import { useBlockNumber } from 'wagmi'
-import routers from '../Routes/routerMap';
+import NetworkError from '../NetworkError/NetworkError';
+import Routers from '../Routes/routerMap'
+import { useRouteName } from '../../common/utils/format'
 
 const Header = (props: any) => {
   const navigate = useNavigate()
   const { t }:any = useTranslation()
+  const routeName = useRouteName(Routers)
+
   const { connectors, disconnect } = useDisconnect()
   const { address, status, isConnected } = useAccount()
-  
   
   return (
     <div className='com-header'>
@@ -31,8 +32,9 @@ const Header = (props: any) => {
         onClick={() => navigate('/staking')}>STAKING</li>
       </ul>
       <div className='hd-connects'>
-        <ConnectButton/>
+        <ConnectButton accountStatus="address"/>
       </div>
+      { routeName === 'notFound' ? <></> : <NetworkError /> }
     </div>
   )
 }

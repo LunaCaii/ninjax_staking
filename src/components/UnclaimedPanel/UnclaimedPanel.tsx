@@ -76,8 +76,8 @@ const UnclaimedPanel = (props: any) => {
             <div className='list-detail'>
               <div className='list-box'>
                 {
-                  item.list.map((sonItem: any) => {
-                    return <div className='list-tr item'>
+                  item.list.map((sonItem: any, sonIndex: any) => {
+                    return <div className='list-tr item' key={`son-${sonIndex}`}>
                       <div className='width-all'>
                         <div className='width-td1'>
                           <div className='td-logo'><img src={sonItem.imageUrl} alt='' /></div>

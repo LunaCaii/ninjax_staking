@@ -34,6 +34,20 @@
       font-weight: var(--font-weight-regular);
       color: var(--color-232027);
     }
+    button[data-testid="rk-account-button"] {
+      height: 37px;
+      padding: 0 12px;
+      background: linear-gradient(to right, var(--color-ffdd86), var(--color-ff9634));
+      border-radius: var(--border-radius-8);
+      font-size: var(--font-size-15);
+      font-family: var(--font-family-nokora);
+      font-weight: var(--font-weight-regular);
+      color: var(--color-232027);
+      >div {
+        background: unset !important;
+        border: unset !important;
+      }
+    }
   }
 }
 /* 媒体查询 */

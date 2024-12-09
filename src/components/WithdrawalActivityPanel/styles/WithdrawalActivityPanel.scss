@@ -42,6 +42,14 @@
 }
 
 /* 媒体查询 */
-@media screen and (max-width: 1440px) {
-
+@media screen and (min-width: 1280px) {
+}
+@media screen and (max-width: 1024px) {
+  .com-panel.withdraw-activity {
+    .list-container {
+      .list-each-item {
+        padding: 19px 30px;
+      }
+    }
+  }
 }

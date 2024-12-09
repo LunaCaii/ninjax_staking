@@ -25,16 +25,6 @@ input {
   box-sizing: border-box;   /* 确保元素的总宽度和高度包括内边距和边框 */
   font-size: inherit;       /* 继承父元素的字体大小 */
 }
-:-moz-placeholder,
-:-ms-input-placeholder {
-  color: var(--color-ffffff);
-}
-input::placeholder,
-input::-webkit-input-placeholder,
-input::-ms-input-placeholder
- {
-  color: var(--color-ffffff);
-}
 
 #root {
   background: rgba(35, 32, 39, 1);
@@ -52,7 +42,8 @@ input::-ms-input-placeholder
 }
 .header-box {
   background: rgba(0, 0, 0, 0.1);
-  padding: 4px 79px;
+  // padding: 4px 79px;
+  padding: 4px 0;
 }
 .body-box {
   // background: rgba(66, 65, 68, 1);
@@ -327,8 +318,9 @@ input::-ms-input-placeholder
   }
 }
 // .footer-box {}
+
 /* 媒体查询 */
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1280px) {
   .com-staking-item-box {
     width: 427px;
     &:last-child {
@@ -339,19 +331,5 @@ input::-ms-input-placeholder
     }
   }
 }
-@media screen and (max-width: 1439px) {
-  .page-earn {
-    .body-earn {
-      .table-panel {
-        .earn-unclaimed {
-          min-width: auto !important;
-          width: 50% !important;
-        }
-        .earn-epoch {
-          width: 50% !important;
-          max-width: 100% !important;
-        }
-      }
-    }
-  }   
+@media screen and (max-width: 1024px) {
 }

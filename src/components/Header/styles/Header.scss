@@ -7,6 +7,7 @@
   gap: 68px;
   
   .hd-logo {
+    flex-shrink: 0;
     width: 80px;
     height: 44px;
     background-image: url('../../../assets/images/header/logo.svg');
@@ -24,6 +25,7 @@
   }
   .hd-connects {
     margin-left: auto;
+    flex-shrink: 0;
     .connect-btn, button[data-testid="rk-connect-button"] {
       width: 142px;
       height: 37px;
@@ -51,9 +53,11 @@
   }
 }
 /* 媒体查询 */
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1280px) {
   .com-header {
     width: 1274px;
     margin: 0 auto;
   }
+}
+@media screen and (max-width: 1024px) {
 }

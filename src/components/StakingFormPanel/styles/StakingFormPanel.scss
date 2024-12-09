@@ -49,11 +49,19 @@
       .div-input {
         height: 44.7px;
         width: 50%;
-        .input-ninjax {
+        input.input-ninjax {
           height: 100%;
           width: 100%;
           font-size: var(--font-size-16);
           color: var(--color-ffffff);
+          // &:-moz-placeholder,
+          // &:-ms-input-placeholder,
+          // &::placeholder,
+          &::-webkit-input-placeholder {
+            color: var(--color-ffffff) !important;
+          }
+          // &::-ms-input-placeholder {
+          // }
         }
       }
       .div-other {
@@ -100,11 +108,14 @@
         padding: 16px 21px 15px 15px;
         .div-input {
           width: 80%;
-          .input-amount {
+          input.input-amount {
             height: 100%;
             width: 100%;
             font-size: var(--font-size-16);
             color: var(--color-ffffff);
+            &::-webkit-input-placeholder {
+              color: var(--color-ffffff) !important;
+            }
           }
         }
         .btn-to-max {
@@ -112,6 +123,7 @@
           font-size: var(--font-size-24);
           font-weight: var(--font-weight-regular);
           color: var(--color-ffb260);
+          cursor: pointer;
         }
       }
     }
@@ -119,6 +131,7 @@
 }
 
 /* 媒体查询 */
-@media screen and (max-width: 1440px) {
-
+@media screen and (min-width: 1280px) {
+}
+@media screen and (max-width: 1024px) {
 }

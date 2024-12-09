@@ -29,14 +29,14 @@
         width: 57%;
       }
       .earn-epoch {
-        max-width: calc(100% - 630px - 28px);
+        // max-width: calc(100% - 630px - 28px);
         width: calc(100% - 57% - 28px);
       }
     }
   }
 }
 /* 媒体查询 */
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1280px) {
   .page-earn {
     .son-panel {
       &.earn {
@@ -48,6 +48,25 @@
       .table-panel {
         width: 1200px;
         margin: 27px auto 54px auto;
+      }
+    }
+  }
+}
+@media screen and (max-width: 1024px) {
+  .page-earn {
+    .body-earn {
+      .table-panel {
+        flex-direction: column;
+        .table-panel-item {
+          width: 100%;
+          &.earn-unclaimed {
+            width: 100%;
+          }
+          &.epoch-history {
+            width: 100%;
+            max-width: 100% !important;
+          }
+        }
       }
     }
   }

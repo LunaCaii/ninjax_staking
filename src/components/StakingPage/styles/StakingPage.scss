@@ -82,3 +82,17 @@
     }
   }
 }
+@media screen and (max-width: 1000px) {
+  .page-staking {
+    .son-panel {
+      &.staking {
+        margin: 58.5px auto 20px auto;
+      }
+    }
+    .body-staking {
+      .table-panel {
+        margin: 20px auto 60px auto;
+      }
+    }
+  }
+}

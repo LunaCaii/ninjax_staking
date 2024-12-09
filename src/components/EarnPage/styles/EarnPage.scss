@@ -57,16 +57,29 @@
     .body-earn {
       .table-panel {
         flex-direction: column;
+        margin: 27px auto 54px auto;
         .table-panel-item {
           width: 100%;
           &.earn-unclaimed {
             width: 100%;
+            min-width: unset;
           }
           &.epoch-history {
             width: 100%;
             max-width: 100% !important;
           }
         }
+      }
+    }
+  }
+}
+@media screen and (max-width: 1000px) {
+  .page-earn {
+
+    .son-panel{
+      &.earn {
+        margin: 30px auto 20px auto;
+        width: 100%;
       }
     }
   }

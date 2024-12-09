@@ -333,3 +333,80 @@ input {
 }
 @media screen and (max-width: 1024px) {
 }
+@media screen and (max-width: 1000px) {
+  .app-layout {
+    height: auto;
+  }
+  .com-panel {
+    h2 {
+      line-height: var(--line-height-24);
+    }
+  }
+  .son-panel {
+    .son-group {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+  .com-panel {
+    .list-container {
+      .list-tr {
+        flex-direction: column;
+        gap: 10px;
+        .width-td1 {
+          width: 70%;
+        }
+        .width-td2 {
+          width: 30%;
+        }
+        .width-left {
+          width: 100%;
+          flex-direction: column;
+          .width-td1, .width-td2 {
+            width: 100%;
+          }
+        }
+        .width-right {
+          margin-left: unset;
+        }
+      }
+      .list-box {
+        width: 100%;
+      }
+      .list-detail {
+        flex-direction: column;
+        gap: 20px;
+        .box-right {
+          margin-left: unset;
+          width: 100%;
+          button {
+            width: 100%;
+          }
+        }
+      }
+      .list-box-column {
+        flex-direction: column;
+        gap: 10px;
+        .line {
+          display: none;
+        }
+        .width-td4 {
+          width: 100%;
+          &.left,&.center,&.right {
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+  .com-staking-item-box {
+    flex-direction: column;
+    gap: 10px;
+    .logo-name, .label-value, .harvest-btn {
+      width: 100%;
+      button {
+        width: 100%;
+      }
+    }
+  }
+}

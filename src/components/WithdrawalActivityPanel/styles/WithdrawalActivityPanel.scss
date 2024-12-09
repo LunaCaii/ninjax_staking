@@ -53,3 +53,17 @@
     }
   }
 }
+@media screen and (max-width: 1000px) {
+  .com-panel.withdraw-activity {
+    .box-title {
+      flex-direction: column;
+      gap: 20px;
+    }
+    .btn-claim {
+      width: 100%;
+      >button {
+        width: 100%;
+      }
+    }
+  }
+}

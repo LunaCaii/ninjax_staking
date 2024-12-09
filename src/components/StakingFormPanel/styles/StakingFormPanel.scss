@@ -7,7 +7,7 @@
   background: var(--color-424144);
   border-radius: var(--border-radius-15);
   padding: 18px 25px;
-  margin: 24px auto;
+  margin: 0 auto;
   .form-tabs {
     display: flex;
     box-sizing: border-box;
@@ -116,4 +116,9 @@
       }
     }
   }
+}
+
+/* 媒体查询 */
+@media screen and (max-width: 1440px) {
+
 }

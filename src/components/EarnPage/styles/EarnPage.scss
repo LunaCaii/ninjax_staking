@@ -2,6 +2,16 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  .son-panel {
+    &.earn {
+      margin: 30px 120px 20px 120px;
+      &.common-width {
+        // max-width: 1200px;
+        // width: 100%;
+        // margin: 30px auto 20px auto;
+      }
+    }
+  }
   .body-earn {
     background: rgba(66, 65, 68, 1);
     flex: 1;
@@ -21,6 +31,23 @@
       .earn-epoch {
         max-width: calc(100% - 630px - 28px);
         width: calc(100% - 57% - 28px);
+      }
+    }
+  }
+}
+/* 媒体查询 */
+@media screen and (min-width: 1440px) {
+  .page-earn {
+    .son-panel {
+      &.earn {
+        width: 1200px;
+        margin: 30px auto 20px auto;
+      }
+    }
+    .body-earn {
+      .table-panel {
+        width: 1200px;
+        margin: 27px auto 54px auto;
       }
     }
   }

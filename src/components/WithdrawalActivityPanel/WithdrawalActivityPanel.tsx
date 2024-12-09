@@ -60,7 +60,7 @@ const WithdrawalActivityPanel = (props: any) => {
         { 
           data.map((item: any) => {
             return <div className='list-each-item' key={`ac-${item.id}`}>
-              <div className='com-staking-item-box'>
+              <div className='com-staking-item-box table-line'>
                 <div className='logo-name'>
                   <div className='logo'>
                     <img src={item.imageUrl} alt='' />
@@ -76,7 +76,7 @@ const WithdrawalActivityPanel = (props: any) => {
                   <p className='label'>Claim Time</p>
                 </div>
                 <div className='btn-claim'>
-                  <button className='table-btn-ffdd85'>Claim</button>
+                  <button className={`table-btn-ffdd85 click`}>Claim</button>
                 </div>
               </div>
             </div>

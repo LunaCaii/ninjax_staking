@@ -46,3 +46,23 @@
     }
   }
 }
+
+/* 媒体查询 */
+@media screen and (min-width: 1440px) {
+  .page-staking {
+    .body-staking {
+      .table-panel {
+        .table-panel-item {
+          width: 915px;
+          margin: 0 auto;
+        }
+      }
+    }
+    .son-panel {
+      &.staking {
+        width: 915px;
+        margin: 58.5px auto 20px auto;
+      }
+    }
+  }
+}

@@ -60,7 +60,7 @@ const UnclaimedPanel = (props: any) => {
             <div className='list-tr thead'>
               <div className='width-left'>
                 <div className='width-td1'>
-                  <span className='title'>{item.title}-{String(item.isOpen)}</span>
+                  <span className='title'>{item.title}</span>
                   <span className='table-ffbf6e-18 tag-sort'># {item.orderBy}</span>
                 </div>
                 <div className='width-td2'>

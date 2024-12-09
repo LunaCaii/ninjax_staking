@@ -102,14 +102,6 @@ input::-ms-input-placeholder
       }
     }
   }
-  &.earn {
-    margin: 30px 120px 20px 120px;
-    &.common-width {
-      // max-width: 1200px;
-      // width: 100%;
-      // margin: 30px auto 20px auto;
-    }
-  }
 }
 .com-panel {
   h2 {
@@ -282,6 +274,9 @@ input::-ms-input-placeholder
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  &.table-line {
+    width: 100% !important;
+  }
   .logo-name {
     display: flex;
     box-sizing: border-box;
@@ -333,7 +328,18 @@ input::-ms-input-placeholder
 }
 // .footer-box {}
 /* 媒体查询 */
-@media screen and (max-width: 1500px) {
+@media screen and (min-width: 1440px) {
+  .com-staking-item-box {
+    width: 427px;
+    &:last-child {
+      width: 321px;
+    }
+    .label-value {
+      width: unset;
+    }
+  }
+}
+@media screen and (max-width: 1439px) {
   .page-earn {
     .body-earn {
       .table-panel {

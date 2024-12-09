@@ -36,3 +36,10 @@
     }
   }
 }
+/* 媒体查询 */
+@media screen and (min-width: 1440px) {
+  .com-header {
+    width: 1274px;
+    margin: 0 auto;
+  }
+}

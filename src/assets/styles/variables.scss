@@ -5,6 +5,7 @@
   --color-ffffff_50: rgba(255,255,255, 0.5);
   --color-ffbf6e: #ffbf6e;
   --color-232027: #232027;
+  --color-232027_70: rgba(35, 32, 39, 0.7);
   --color-ffdd85: #ffdd85;
   --color-ffdd86: #ffdd86;
   --color-ff9634: #ff9634;
@@ -23,6 +24,9 @@
   --color-f63f4a: #f63f4a;
   --color-97979a: #97979a;
   --color-ffb260: #ffb260;
+  --color-5f5e61: #5f5e61;
+  --color-ffd484: #ffd484;
+  --color-ff9836: #ff9836;
 
   /* Font/text values */
   --font-family-nokora: NoKoRa;
@@ -120,17 +124,30 @@
     }
   }
   .table-btn-ffdd85 {
-    background: transparent;
-    border: 1px solid var(--color-ffdd85);
     font-family: var(--font-family-nokora);
     font-size: var(--font-size-12);
     font-weight: var(--font-weight-bold);
     line-height: var(--line-height-9);
     border-radius: var(--border-radius-15);
-    color: var(--color-ffdd85);
     padding: 10.5px 16px;
     min-width: 68px;
     cursor: pointer;
+    &.normal {
+      background: transparent;
+      border: 1px solid var(--color-ffdd85);
+      color: var(--color-ffdd85);
+    }
+    &.click {
+      background: linear-gradient(to right, var(--color-ffd484), var(--color-ff9836));
+      border: unset;
+      color: var(--color-232027);
+    }
+    &.disabled {
+      cursor: not-allowed;
+      background: var(--color-5f5e61);
+      border: 1px solid var(--color-5f5e61);
+      color: var(--color-232027_70);
+    }
   }
   .text-error {
     font-family: var(--font-family-nokora);

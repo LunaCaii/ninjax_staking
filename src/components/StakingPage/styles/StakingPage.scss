@@ -1,0 +1,48 @@
+.page-staking {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .son-panel {
+    .son-notice {
+      margin-bottom: 16px;
+    }
+    .son-group {
+      &.staking {
+        padding: 30px 35px;
+      }
+    }
+    .line-h{
+      display: block;
+      width: 2px;
+      height: 27px;
+      background: var(--color-232027);
+      margin: 0 48px;
+    }
+    &.staking {
+      margin: 58.5px 120px 20px 120px;
+      &.common-width {
+        // max-width: 1200px;
+        // width: 100%;
+        // margin: 30px auto 20px auto;
+      }
+    }
+  }
+  .body-staking {
+    background: rgba(66, 65, 68, 1);
+    flex: 1;
+    .table-panel {
+      display: flex;
+      box-sizing: border-box;      
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 28px;
+      margin: 20px 120px 60px 120px;
+      .table-panel-item {
+        background: var(--color-555357);
+        border-radius: var(--border-radius-10);
+        padding: 23px 35px 24px 35px;
+        min-height: 400px;
+      }
+    }
+  }
+}

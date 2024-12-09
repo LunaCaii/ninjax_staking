@@ -1,0 +1,38 @@
+.com-header {
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 68px;
+  
+  .hd-logo {
+    width: 80px;
+    height: 44px;
+    background-image: url('../../../assets/images/header/logo.svg');
+    background-repeat: no-repeat;
+  }
+  .hd-menus {
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 62px;
+    .hd-menu {
+      cursor: pointer;
+    }
+  }
+  .hd-connects {
+    margin-left: auto;
+    .connect-btn, button[data-testid="rk-connect-button"] {
+      width: 142px;
+      height: 37px;
+      background: linear-gradient(to right, var(--color-ffdd86), var(--color-ff9634));
+      border-radius: var(--border-radius-8);
+      font-size: var(--font-size-15);
+      font-family: var(--font-family-nokora);
+      font-weight: var(--font-weight-regular);
+      color: var(--color-232027);
+    }
+  }
+}

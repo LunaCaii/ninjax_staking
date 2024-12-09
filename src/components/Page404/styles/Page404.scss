@@ -1,0 +1,32 @@
+.page404 {
+    color: #ffffff;
+    width: calc(100% - 20px);
+    max-width: var(--unnamed-layout-with-max);
+    min-height: calc(100vh - 298px);
+    margin: 0 auto;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    .page404-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .page404-image {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-right: 40px;
+    }
+    h1 {
+        font-size: 56px;
+        font-family: 'Graphie Bold', Helvetica, Arial, Lucida, sans-serif;
+    }
+    p {
+        font-size: 16px;
+        font-family: 'Source Sans Pro', Helvetica, Arial, Lucida, sans-serif;
+        margin-top: 20px;
+        line-height: 24px;
+    }
+}

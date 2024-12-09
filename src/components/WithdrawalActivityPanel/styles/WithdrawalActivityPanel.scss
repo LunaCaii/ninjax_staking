@@ -1,0 +1,42 @@
+.com-panel {
+  &.withdraw-activity {
+    .box-title {
+      display: flex;
+      box-sizing: border-box;
+      justify-content: space-between;
+      align-items: center;
+      .box-switch {
+        display: flex;
+        box-sizing: border-box;
+        align-items: center;
+        background: var(--color-232027);
+        padding: 3px 3px;
+        border-radius: var(--border-radius-30);
+        .switch-item {
+          padding: 3px 16px;
+          font-family: var(--font-family-nokora);
+          font-size: var(--font-size-14);
+          font-weight: var(--font-weight-bold);
+          line-height: var(--line-height-20);
+          color: var(--color-a4a6a4);
+          border-radius: var(--border-radius-30);
+          cursor: pointer;
+          &.active {
+            color: var(--color-fefffd);
+            background: var(--color-868488);
+          }
+        }
+      }
+    }
+    .list-container {
+      gap: 10px;
+      margin-top: 20px;
+      .list-each-item {
+        padding: 19px 62px;
+        background: var(--color-424144);
+        border: 1px solid var(--color-79767c);
+        border-radius: var(--border-radius-15);
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+.page-earn {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .body-earn {
+    background: rgba(66, 65, 68, 1);
+    flex: 1;
+    .table-panel {
+      background: var(--color-555357);
+      border-radius: var(--border-radius-10);
+      margin: 27px 120px 54px 120px;
+      display: flex;
+      flex-direction: row;
+      padding: 30px 46px;
+      justify-content: flex-start;
+      gap: 28px;
+      .earn-unclaimed {
+        min-width: 630px;
+        width: 57%;
+      }
+      .earn-epoch {
+        max-width: calc(100% - 630px - 28px);
+        width: calc(100% - 57% - 28px);
+      }
+    }
+  }
+}

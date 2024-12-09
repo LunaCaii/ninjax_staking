@@ -1,0 +1,83 @@
+.network-error {
+    position: fixed;
+    z-index: 9;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    
+    .content {
+      padding: 40px 24px;
+      isolation: isolate;
+      width: 341px;
+      height: 378px;
+      background: transparent linear-gradient(180deg, var(--unnamed-color-ffffff) 0%, var(--unnamed-color-7515ff) 71%, #0000FF 100%) 0% 0% no-repeat padding-box;
+      border-radius: 18px;
+      
+      position: relative;
+      box-shadow: 0px 10px 10px -5px rgba(136, 136, 136, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      box-sizing: border-box;
+      
+      .i-close {
+        position: absolute;
+        top: 21px;
+        right: 21px;
+        cursor: pointer;
+      }
+  
+        .content-title {
+          font-family: 'Archivo';
+          font-style: normal;
+          font-weight: 700;
+          font-size: 24px;
+          line-height: 26px;
+          margin-top: 32px;
+          color: #ffffff;
+        }
+  
+      .content-text {
+        font-family: 'Archivo';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 24px;
+        text-align: center;
+        margin-top: 32px;
+        color: #ffffff;
+      }
+  
+      button, .switch-to {
+        margin-top: 32px;
+        width: 197px;
+            height: 50px;
+            border: 0.92px solid var(--unnamed-color-ffffff);
+            border-radius: 20px;
+            background: transparent;
+            text-align: center;
+            font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-600) 21px var(--unnamed-font-family-source-sans-pro);
+            color: var(--unnamed-color-ffffff);
+            letter-spacing: 2.1px;
+            cursor: pointer;
+     }
+  
+      @media (max-width: 750px) {
+        padding: 50px 20px;
+        width: calc(100% - 32px);
+        min-width: unset;
+        min-height: unset;
+  
+        .content-text {
+          margin: 20px 0;
+        }
+      }
+    }
+  }

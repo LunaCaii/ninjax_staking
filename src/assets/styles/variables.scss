@@ -19,6 +19,10 @@
   --color-a4a6a4: #a4a6a4;
   --color-fefffd: #fefffd;
   --color-868488: #868488;
+  --color-a4a6a3: #a4a6a3;
+  --color-f63f4a: #f63f4a;
+  --color-97979a: #97979a;
+  --color-ffb260: #ffb260;
 
   /* Font/text values */
   --font-family-nokora: NoKoRa;
@@ -35,6 +39,7 @@
 
   --font-size-40: 40px;
   --font-size-26: 26px;
+  --font-size-24: 24px;
   --font-size-20: 20px;
   --font-size-18: 18px;
   --font-size-16: 16px;
@@ -44,11 +49,14 @@
   
   --line-height-9: 9px;
   --line-height-12: 12px;
+  --line-height-16: 16px;
   --line-height-19: 19px;
   --line-height-20: 20px;
   --line-height-21: 21px;
   --line-height-24: 24px;
   --line-height-26: 26px;
+  --line-height-32: 32px;
+  --line-height-50: 50px;
   --line-height-53: 53px;
 
   /* border values */
@@ -102,6 +110,14 @@
       border: 1px solid var(--color-a4a4a4);
       color: var(--color-6b696d);
     }
+    &.size-all {
+      width: 100%;
+      padding: 0 0;
+      font-size: var(--font-size-18);
+      height: var(--line-height-50);
+      line-height: var(--line-height-50);
+      border-radius: var(--border-radius-8);
+    }
   }
   .table-btn-ffdd85 {
     background: transparent;
@@ -114,5 +130,12 @@
     color: var(--color-ffdd85);
     padding: 10.5px 16px;
     min-width: 68px;
+    cursor: pointer;
+  }
+  .text-error {
+    font-family: var(--font-family-nokora);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-14);
+    color: var(--color-f63f4a);
   }
 }

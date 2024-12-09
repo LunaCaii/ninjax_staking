@@ -12,6 +12,30 @@ html,body {
   /* 禁止双指拖曳 */
   min-width: 375px;
 }
+/* 清除 input 元素的默认样式 */
+input {
+  border: none;            /* 去除边框 */
+  outline: none;            /* 去除聚焦时的轮廓线 */
+  background-color: transparent; /* 去除背景色 */
+  padding: 0;               /* 去除内边距 */
+  margin: 0;                /* 去除外边距 */
+  -webkit-appearance: none; /* 去除 iOS 上的默认样式 */
+  -moz-appearance: none;    /* 去除 Firefox 上的默认样式 */
+  appearance: none;         /* 去除其他浏览器上的默认样式 */
+  box-sizing: border-box;   /* 确保元素的总宽度和高度包括内边距和边框 */
+  font-size: inherit;       /* 继承父元素的字体大小 */
+}
+:-moz-placeholder,
+:-ms-input-placeholder {
+  color: var(--color-ffffff);
+}
+input::placeholder,
+input::-webkit-input-placeholder,
+input::-ms-input-placeholder
+ {
+  color: var(--color-ffffff);
+}
+
 #root {
   background: rgba(35, 32, 39, 1);
   margin: 0 auto;

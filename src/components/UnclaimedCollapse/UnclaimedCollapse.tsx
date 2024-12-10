@@ -11,7 +11,7 @@ const UnclaimedCollapse = (props: any) => {
 
   return (
     <div className={`list-table isOpen-${String(isOpen)}`}  key={`up-${props.id}`}>
-      <div className='list-tr thead'>
+      <div className='list-tr thead' onClick={toggleOpen}>
         <div className='width-left'>
           <div className='width-td1'>
             <span className='title'>{props.title}</span>
@@ -22,7 +22,7 @@ const UnclaimedCollapse = (props: any) => {
           </div>
         </div>
         <div className='width-right'>
-          <span className='icon-arrow' onClick={toggleOpen}></span>
+          <span className='icon-arrow'></span>
         </div>
       </div>
       <div className='list-detail'>

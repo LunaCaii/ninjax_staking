@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react'
+import { memo, useRef, useEffect, useState } from 'react'
 import './styles/UnclaimedPanel.scss'
 import { useTranslation } from 'react-i18next'
 import usdtIcon from '../../assets/images/icon-usdt.svg'
@@ -7,10 +7,11 @@ import { UnclaimedCollapse } from '../UnclaimedCollapse'
 
 const UnclaimedPanel = (props: any) => {
   const { t }:any = useTranslation()
+  const scrollRef = useRef(null);
+  const [hideElement, setHideElement] = useState(false);
 
   let list: any = []
   Array(10).fill(1).map((item: any, index: any) => {
-    console.log(item, index)
     list.push({
       id: index+1,
       title: `Epoch-${index+1}`,
@@ -32,10 +33,26 @@ const UnclaimedPanel = (props: any) => {
   })
   const data = list;
 
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
+      // 当滚动到底部时，隐藏元素
+      setHideElement(scrollHeight - scrollTop - clientHeight <= 1); // 留一个像素的边距
+    }
+  };
+
+  useEffect(() => {
+    const element: any = scrollRef.current
+    element.addEventListener('scroll', handleScroll)
+    return () => {
+      element.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <div className='com-panel unclaimed-panel'>
       <h2>You have unclaimed Rewards</h2>
-      <div className='list-container'>
+      <div ref={scrollRef} className='list-container'>
         { data.map((item: any, index: any) => {
           return <UnclaimedCollapse {...{
             ...item,
@@ -44,7 +61,7 @@ const UnclaimedPanel = (props: any) => {
         })
       }
       </div>
-      <div className='defalut-mask'></div>
+      {hideElement ? <></> : <div className='defalut-mask'></div>}
     </div>
   )
 }

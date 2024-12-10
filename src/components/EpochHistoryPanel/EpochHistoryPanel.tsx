@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react'
+import { memo, useRef, useEffect, useState } from 'react'
 import './styles/EpochHistoryPanel.scss'
 import { useTranslation } from 'react-i18next'
 import usdtIcon from '../../assets/images/icon-usdt.svg'
@@ -6,10 +6,12 @@ import ethIcon from '../../assets/images/icon-eth.svg'
 
 const EpochHistoryPanel = (props: any) => {
   const { t }:any = useTranslation()
+  const scrollRef = useRef(null);
+  const [hideElement, setHideElement] = useState(false);
 
   let list: any = []
+  // eslint-disable-next-line array-callback-return
   Array(10).fill(1).map((item: any, index: any) => {
-    console.log(item, index)
     list.push({
       id: index+1,
       title: `Epoch-${index+1}`,
@@ -31,10 +33,26 @@ const EpochHistoryPanel = (props: any) => {
   })
   const data = list;
   
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
+      // 当滚动到底部时，隐藏元素
+      setHideElement(scrollHeight - scrollTop - clientHeight <= 1); // 留一个像素的边距
+    }
+  };
+
+  useEffect(() => {
+    const element: any = scrollRef.current
+    element.addEventListener('scroll', handleScroll)
+    return () => {
+      element.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <div className='com-panel epoch-history'>
       <h2>Epoch History</h2>
-      <div className='list-container'>
+      <div ref={scrollRef} className='list-container'>
         { data.map((item: any) => {
           return <div className='list-table'  key={`ep-${item.id}`}>
             <div className='list-tr thead'>
@@ -67,7 +85,7 @@ const EpochHistoryPanel = (props: any) => {
         })
       }
       </div>
-      <div className='defalut-mask'></div>
+      {hideElement ? <></> : <div className='defalut-mask'></div>}
     </div>
   )
 }

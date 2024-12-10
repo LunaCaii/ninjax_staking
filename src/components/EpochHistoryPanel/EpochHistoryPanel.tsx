@@ -7,13 +7,14 @@ import ethIcon from '../../assets/images/icon-eth.svg'
 const EpochHistoryPanel = (props: any) => {
   const { t }:any = useTranslation()
 
-  const data = [
-    {
-      id: 1,
-      title: 'Epoch-1',
-      orderBy: 1,
+  let list: any = []
+  Array(10).fill(1).map((item: any, index: any) => {
+    console.log(item, index)
+    list.push({
+      id: index+1,
+      title: `Epoch-${index+1}`,
+      orderBy: index+1,
       totalMoney: 2000,
-      isOpen: true,
       list: [
         {
           imageUrl: usdtIcon,
@@ -26,31 +27,10 @@ const EpochHistoryPanel = (props: any) => {
           money: 1000
         }
       ]
-    },
-    {
-      id: 2,
-      title: 'Epoch-2',
-      orderBy: 2,
-      totalMoney: 3000,
-      isOpen: false,
-      list: [
-        {
-          imageUrl: usdtIcon,
-          name: 'USDT',
-          money: 2000
-        },
-        {
-          imageUrl: ethIcon,
-          name: 'ETH',
-          money: 1000
-        }
-      ]
-    }
-  ]
-
-  const updateItemOpen = (changeItem: any, isOpen: Boolean) => {
-  };
-
+    })
+  })
+  const data = list;
+  
   return (
     <div className='com-panel epoch-history'>
       <h2>Epoch History</h2>
@@ -86,8 +66,8 @@ const EpochHistoryPanel = (props: any) => {
           </div>
         })
       }
-        <div className='defalut-mask'></div>
       </div>
+      <div className='defalut-mask'></div>
     </div>
   )
 }

@@ -8,11 +8,13 @@ import { UnclaimedCollapse } from '../UnclaimedCollapse'
 const UnclaimedPanel = (props: any) => {
   const { t }:any = useTranslation()
 
-  const data = [
-    {
-      id: 1,
-      title: 'Epoch-1',
-      orderBy: 1,
+  let list: any = []
+  Array(10).fill(1).map((item: any, index: any) => {
+    console.log(item, index)
+    list.push({
+      id: index+1,
+      title: `Epoch-${index+1}`,
+      orderBy: index+1,
       totalMoney: 2000,
       list: [
         {
@@ -26,44 +28,9 @@ const UnclaimedPanel = (props: any) => {
           money: 1000
         }
       ]
-    },
-    {
-      id: 2,
-      title: 'Epoch-2',
-      orderBy: 2,
-      totalMoney: 3000,
-      list: [
-        {
-          imageUrl: usdtIcon,
-          name: 'USDT',
-          money: 2000
-        },
-        {
-          imageUrl: ethIcon,
-          name: 'ETH',
-          money: 1000
-        }
-      ]
-    },
-    {
-      id: 3,
-      title: 'Epoch-3',
-      orderBy: 3,
-      totalMoney: 300,
-      list: [
-        {
-          imageUrl: usdtIcon,
-          name: 'USDT',
-          money: 100
-        },
-        {
-          imageUrl: ethIcon,
-          name: 'ETH',
-          money: 200
-        }
-      ]
-    }
-  ]
+    })
+  })
+  const data = list;
 
   return (
     <div className='com-panel unclaimed-panel'>
@@ -76,8 +43,8 @@ const UnclaimedPanel = (props: any) => {
           }} key={`cc-${item.id}`} />
         })
       }
-        <div className='defalut-mask'></div>
       </div>
+      <div className='defalut-mask'></div>
     </div>
   )
 }

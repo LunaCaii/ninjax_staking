@@ -1,51 +1,45 @@
-import { memo, useEffect, useState } from 'react'
+import { memo, useRef, useEffect, useState } from 'react'
 import './styles/WithdrawalActivityPanel.scss'
 import { useTranslation } from 'react-i18next'
 import ninjaxSvg from '../../assets/images/ninjax-logo.svg'
 
 const WithdrawalActivityPanel = (props: any) => {
   const { t }:any = useTranslation()
+  const scrollRef = useRef(null);
+  const [hideElement, setHideElement] = useState(false);
+
   const [tabType, setTabType] = useState('pending')
   const changeTab = (type: string) => {
     setTabType(type)
   }
-  const data = [
-    {
-      id: 1,
+
+  let list: any = []
+  Array(10).fill(1).map((item: any, index: any) => {
+    list.push({
+      id: index + 1,
       imageUrl: ninjaxSvg,
-      name: 'NINJAX',
+      name: `NINJAX-${index}`,
       requestAmount: 10.2,
       claimTime: 'In 5d 2h'
-    },
-    {
-      id: 2,
-      imageUrl: ninjaxSvg,
-      name: 'NINJAX',
-      requestAmount: 8.2,
-      claimTime: ''
-    },
-    {
-      id: 3,
-      imageUrl: ninjaxSvg,
-      name: 'NINJAX',
-      requestAmount: 8.2,
-      claimTime: ''
-    },
-    {
-      id: 4,
-      imageUrl: ninjaxSvg,
-      name: 'NINJAX',
-      requestAmount: 8.2,
-      claimTime: ''
-    },
-    {
-      id: 5,
-      imageUrl: ninjaxSvg,
-      name: 'NINJAX',
-      requestAmount: 8.2,
-      claimTime: ''
+    })
+  })
+  const data = list;
+
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
+      // 当滚动到底部时，隐藏元素
+      setHideElement(scrollHeight - scrollTop - clientHeight <= 1); // 留一个像素的边距
     }
-  ]
+  };
+
+  useEffect(() => {
+    const element: any = scrollRef.current
+    element.addEventListener('scroll', handleScroll)
+    return () => {
+      element.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <div className='com-panel withdraw-activity'>
@@ -56,7 +50,7 @@ const WithdrawalActivityPanel = (props: any) => {
           <div className={`switch-item ${tabType === 'close' ? 'active' : ''}`} onClick={() => changeTab('close')}>Close</div>
         </div>
       </div>
-      <div className='list-container'>
+      <div ref={scrollRef} className='list-container'>
         { 
           data.map((item: any) => {
             return <div className='list-each-item' key={`ac-${item.id}`}>
@@ -82,9 +76,8 @@ const WithdrawalActivityPanel = (props: any) => {
             </div>
           })
         }
-        <div className='defalut-mask'></div>
+        {hideElement ? <></> : <div className='defalut-mask'></div>}
       </div>
-      
     </div>
   )
 }

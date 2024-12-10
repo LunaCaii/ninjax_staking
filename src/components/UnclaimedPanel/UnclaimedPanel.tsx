@@ -3,6 +3,7 @@ import './styles/UnclaimedPanel.scss'
 import { useTranslation } from 'react-i18next'
 import usdtIcon from '../../assets/images/icon-usdt.svg'
 import ethIcon from '../../assets/images/icon-eth.svg'
+import { UnclaimedCollapse } from '../UnclaimedCollapse'
 
 const UnclaimedPanel = (props: any) => {
   const { t }:any = useTranslation()
@@ -13,7 +14,6 @@ const UnclaimedPanel = (props: any) => {
       title: 'Epoch-1',
       orderBy: 1,
       totalMoney: 2000,
-      isOpen: true,
       list: [
         {
           imageUrl: usdtIcon,
@@ -32,7 +32,6 @@ const UnclaimedPanel = (props: any) => {
       title: 'Epoch-2',
       orderBy: 2,
       totalMoney: 3000,
-      isOpen: false,
       list: [
         {
           imageUrl: usdtIcon,
@@ -45,57 +44,36 @@ const UnclaimedPanel = (props: any) => {
           money: 1000
         }
       ]
+    },
+    {
+      id: 3,
+      title: 'Epoch-3',
+      orderBy: 3,
+      totalMoney: 300,
+      list: [
+        {
+          imageUrl: usdtIcon,
+          name: 'USDT',
+          money: 100
+        },
+        {
+          imageUrl: ethIcon,
+          name: 'ETH',
+          money: 200
+        }
+      ]
     }
   ]
-
-  const updateItemOpen = (changeItem: any, isOpen: Boolean) => {
-  };
 
   return (
     <div className='com-panel unclaimed-panel'>
       <h2>You have unclaimed Rewards</h2>
       <div className='list-container'>
-        { data.map((item: any) => {
-          return <div className={`list-table`}  key={`up-${item.id}`}>
-            <div className='list-tr thead'>
-              <div className='width-left'>
-                <div className='width-td1'>
-                  <span className='title'>{item.title}</span>
-                  <span className='table-ffbf6e-18 tag-sort'># {item.orderBy}</span>
-                </div>
-                <div className='width-td2'>
-                  <span className='table-ffbf6e-18 money'>$ {item.totalMoney}</span>
-                </div>
-              </div>
-              <div className='width-right'>
-                <span className='icon-arrow' onClick={() => {
-                  updateItemOpen(item, !item.isOpen)
-                }}></span>
-              </div>
-            </div>
-            <div className='list-detail'>
-              <div className='list-box'>
-                {
-                  item.list.map((sonItem: any, sonIndex: any) => {
-                    return <div className='list-tr item' key={`son-${sonIndex}`}>
-                      <div className='width-all'>
-                        <div className='width-td1'>
-                          <div className='td-logo'><img src={sonItem.imageUrl} alt='' /></div>
-                          <span className='table-ffffff-16 name'>{sonItem.name}</span>
-                        </div>
-                        <div className='width-td2'>
-                          <span className='table-ffffff-16 money'>$ {sonItem.money}</span>
-                        </div>
-                      </div>
-                    </div>
-                  })
-                }
-              </div>
-              <div className='box-right'>
-                <button className='table-btn-ffbf6e btn-claim'>Claim</button>
-              </div>
-            </div>
-          </div>
+        { data.map((item: any, index: any) => {
+          return <UnclaimedCollapse {...{
+            ...item,
+            index: index
+          }} key={`cc-${item.id}`} />
         })
       }
         <div className='defalut-mask'></div>

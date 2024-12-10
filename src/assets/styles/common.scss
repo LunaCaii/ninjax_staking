@@ -163,6 +163,12 @@ input {
           height: 6px;
           background: url('../../assets/images/arrow.svg') no-repeat;
           cursor: pointer;
+          &.isOpen {
+            transform: rotate(0deg);
+          }
+          &.isClose {
+            transform: rotate(180deg);
+          }
         }
       }
       &.thead {

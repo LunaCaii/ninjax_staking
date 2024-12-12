@@ -87,6 +87,9 @@
     font-weight: var(--font-weight-bold);
     height: var(--line-height-24);
     color: var(--color-ffbf6e);
+    &.color-ffffff {
+      color: var(--color-ffffff);
+    }
   }
   .table-ffffff-16 {
     font-family: var(--font-family-nokora);
@@ -94,6 +97,9 @@
     font-weight: var(--font-weight-bold);
     height: var(--line-height-21);
     color: var(--color-ffffff);
+    &.color-ffbf6e {
+      color: var(--color-ffbf6e);
+    }
   }
   .table-btn-ffbf6e {
     box-sizing: border-box;

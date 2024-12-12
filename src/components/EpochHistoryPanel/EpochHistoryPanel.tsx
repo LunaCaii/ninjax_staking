@@ -65,11 +65,11 @@ const EpochHistoryPanel = (props: any) => {
             </div>
             <div className='list-detail'>
               <div className='list-box-column'>
-                <div className='width-td4 left'>
+                {/* <div className='width-td4 left'>
                   <div className='info'>No</div>
                   <div className='label'>Out of range?</div>
                 </div>
-                <div className='line'></div>
+                <div className='line'></div> */}
                 <div className='width-td4 center'>
                   <div className='info'>$100,000</div>
                   <div className='label'>Total LP</div>

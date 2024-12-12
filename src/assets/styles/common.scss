@@ -129,6 +129,12 @@ input {
         display: flex;
         box-sizing: border-box;
         align-items: center;
+        &.styles2 {
+          width: 45%;
+        }
+        &.styles2-son {
+          width: 50%;
+        }
         .tag-sort {
           margin-left: 18px;
         }
@@ -148,6 +154,9 @@ input {
       }
       .width-td2 {
         width: 20%;
+        &.styles2-son {
+          width: 33%;
+        }
       }
       .width-all {
         display: flex;
@@ -164,6 +173,13 @@ input {
       }
       .width-right {
         margin-left: auto;
+        &.styles2 {
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          gap: 10px;
+        }
         .icon-arrow {
           display: block;
           width: 9px;
@@ -375,6 +391,9 @@ input {
         }
         .width-right {
           margin-left: unset;
+          &.styles2 {
+            width: 100%;
+          }
         }
       }
       .list-box {

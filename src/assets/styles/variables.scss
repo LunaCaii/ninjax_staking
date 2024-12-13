@@ -176,4 +176,17 @@
     font-size: var(--font-size-14);
     color: var(--color-f63f4a);
   }
+  .cm-loading {
+    &.rv-loading {
+      padding-top: calc((577px - 177px) / 2);
+      .rv-loading__circular {
+        circle {
+          stroke: var(--color-ffffff);
+        }
+      }
+      .rv-loading__text {
+        color: var(--color-ffffff);
+      }
+    }
+  }
 }

@@ -34,7 +34,7 @@ const Header = (props: any) => {
       <div className='hd-connects'>
         <ConnectButton accountStatus="address"/>
       </div>
-      { routeName === 'notFound' ? <></> : <NetworkError /> }
+      {/* { routeName === 'notFound' ? <></> : <NetworkError /> } */}
     </div>
   )
 }

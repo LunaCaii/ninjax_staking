@@ -2,11 +2,13 @@ import { memo, useRef, useEffect, useState } from 'react'
 import './styles/WithdrawalActivityPanel.scss'
 import { useTranslation } from 'react-i18next'
 import ninjaxSvg from '../../assets/images/ninjax-logo.svg'
+import { Loading } from 'react-vant'
 
 const WithdrawalActivityPanel = (props: any) => {
   const { t }:any = useTranslation()
   const scrollRef = useRef(null);
   const [hideElement, setHideElement] = useState(false);
+  const [loading, setLoading] = useState(true)
 
   const [tabType, setTabType] = useState('pending')
   const changeTab = (type: string) => {
@@ -52,6 +54,9 @@ const WithdrawalActivityPanel = (props: any) => {
       </div>
       <div ref={scrollRef} className='list-container'>
         { 
+          loading ? <Loading className='cm-loading' size="24px" vertical>
+            Loading...
+          </Loading> :
           data.map((item: any) => {
             return <div className='list-each-item' key={`ac-${item.id}`}>
               <div className='com-staking-item-box table-line'>

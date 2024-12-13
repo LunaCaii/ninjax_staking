@@ -3,11 +3,13 @@ import './styles/EpochHistoryPanel.scss'
 import { useTranslation } from 'react-i18next'
 import usdtIcon from '../../assets/images/icon-usdt.svg'
 import ethIcon from '../../assets/images/icon-eth.svg'
+import { Loading } from 'react-vant'
 
 const EpochHistoryPanel = (props: any) => {
   const { t }:any = useTranslation()
   const scrollRef = useRef(null);
   const [hideElement, setHideElement] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   let list: any = []
   // eslint-disable-next-line array-callback-return
@@ -53,7 +55,11 @@ const EpochHistoryPanel = (props: any) => {
     <div className='com-panel epoch-history'>
       <h2>Epoch History</h2>
       <div ref={scrollRef} className='list-container'>
-        { data.map((item: any) => {
+      {
+        loading ? <Loading className='cm-loading' size="24px" vertical>
+          Loading...
+        </Loading> : 
+        data.map((item: any) => {
           return <div className='list-table'  key={`ep-${item.id}`}>
             <div className='list-tr thead'>
               <div className='width-left'>
@@ -71,12 +77,12 @@ const EpochHistoryPanel = (props: any) => {
                 </div>
                 <div className='line'></div> */}
                 <div className='width-td4 center'>
-                  <div className='info'>$100,000</div>
+                  <div className='info'>100,000</div>
                   <div className='label'>Total LP</div>
                 </div>
                 <div className='line'></div>
                 <div className='width-td4 right'>
-                  <div className='info'>$200</div>
+                  <div className='info'>200</div>
                   <div className='label'>Rewards</div>
                 </div>
               </div>

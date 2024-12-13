@@ -4,11 +4,13 @@ import { useTranslation } from 'react-i18next'
 import usdtIcon from '../../assets/images/icon-usdt.svg'
 import ethIcon from '../../assets/images/icon-eth.svg'
 import { UnclaimedCollapse } from '../UnclaimedCollapse'
+import { Loading } from 'react-vant'
 
 const UnclaimedPanel = (props: any) => {
   const { t }:any = useTranslation()
   const scrollRef = useRef(null);
   const [hideElement, setHideElement] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   let list: any = []
   Array(10).fill(1).map((item: any, index: any) => {
@@ -53,13 +55,17 @@ const UnclaimedPanel = (props: any) => {
     <div className='com-panel unclaimed-panel'>
       <h2>You have unclaimed Rewards</h2>
       <div ref={scrollRef} className='list-container'>
-        { data.map((item: any, index: any) => {
-          return <UnclaimedCollapse {...{
-            ...item,
-            index: index
-          }} key={`cc-${item.id}`} />
-        })
-      }
+        {
+          loading ? <Loading className='cm-loading' size="24px" vertical>
+            Loading...
+          </Loading> : 
+          data.map((item: any, index: any) => {
+            return <UnclaimedCollapse {...{
+              ...item,
+              index: index
+            }} key={`cc-${item.id}`} />
+          })
+        }
       </div>
       {hideElement ? <></> : <div className='defalut-mask'></div>}
     </div>

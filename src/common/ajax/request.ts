@@ -54,7 +54,7 @@ const requestHandler = <T>(
   return new Promise<T>((resolve, reject) => {
     response
       .then((res: any) => {
-        // if (res.request.responseURL === 'https://dev-app-api.abey.com/biz/benefit/exchange') {
+        // if (res.request.responseURL === 'https://dev-app-api.tabi.com/biz/benefit/exchange') {
         //   res = {
         //     data: {
         //       code: 400,

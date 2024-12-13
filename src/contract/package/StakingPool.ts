@@ -2,6 +2,7 @@ import { web3SDK } from '../index'
 import {
     REACT_APP_STAKING_POOL,
 } from '../config'
+import ERC20ABI from '../abi/ERC20ABI'
 import StakingPoolABI from '../abi/StakingPool'
 
 const contractObj = async () =>
@@ -20,12 +21,34 @@ const pendingReward = async (): Promise<string> => {
 }
 
 /**
+ * 查询质押的Token
+ * @returns 
+ */
+const stakingToken = async (): Promise<string> => await (await contractObj()).methods.stakingToken().call()
+
+/**
  * 查询解锁具体信息
  * @returns 
  */
 const userUnstakeInfo = async (index: string | number): Promise<string> => {
     const [from] = await web3SDK.getAccount()
     return await (await contractObj()).methods.userUnstakeInfo(from, index).call()
+}
+
+const allowanceStakingPool = async (): Promise<string> => {
+    const [from] = await web3SDK.getAccount()
+    const _stakingToken = await stakingToken()
+    const tokenContractObj = await web3SDK.createContractObj(ERC20ABI, _stakingToken as string)
+    return await tokenContractObj.methods.allowance(from, _stakingToken).call()
+}
+
+const approveStakingPool = async (): Promise<any> => {
+    const [from] = await web3SDK.getAccount()
+    const _stakingToken = await stakingToken()
+    const tokenContractObj = await web3SDK.createContractObj(ERC20ABI, _stakingToken as string)
+    const gasPrice = await web3SDK.getGasPrice()
+    const gas = await tokenContractObj.methods.approve(_stakingToken, web3SDK.max).estimateGas({ from })
+    return await tokenContractObj.methods.approve(_stakingToken, web3SDK.max).send({ from, gas, gasPrice })
 }
 
 /**
@@ -88,20 +111,26 @@ const claimIndex = async (index: string | number) => {
 }
 
 export type StakingPoolTypes = {
+    stakingToken: () => Promise<string>
     pendingReward: () => Promise<string>
     stake: (_amount: string) => Promise<any>
     unstake: (_amount: string) => Promise<any>
     claimIndex: (index: string | number) => Promise<any>
     userUnstakeInfo: (index: string | number) => Promise<any>
+    allowanceStakingPool: () => Promise<string>,
+    approveStakingPool: () => Promise<any>
 }
 
 const exportObj = {
     stake,
     unstake,
     claimIndex,
-    pendingReward,
+    stakingToken,
     pendingClaim,
-    userUnstakeInfo
+    pendingReward,
+    userUnstakeInfo,
+    allowanceStakingPool,
+    approveStakingPool
 }
 
 export default exportObj 

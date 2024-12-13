@@ -3,18 +3,21 @@ import { EtherUnits } from 'web3-utils'
 import { ContractAbi } from 'web3-types'
 import ERC20ABI from './abi/ERC20ABI'
 import StakingPool, { StakingPoolTypes } from './package/StakingPool'
+import Token, { TokenTypes } from './package/Token'
 
 
 export default class Web3SDK {
   private web3: Web3Obj
+  public max: string
   public StakingPool: StakingPoolTypes
-
-  static max =
-    '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+  public Token: TokenTypes
 
   constructor(priovider: any) {
     this.web3 = new Web3Obj(priovider)
     this.StakingPool = StakingPool
+    this.Token = Token
+    this.max =
+      '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
   }
 
   // Base Func

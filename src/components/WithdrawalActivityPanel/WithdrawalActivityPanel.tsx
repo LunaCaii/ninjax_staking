@@ -8,7 +8,7 @@ const WithdrawalActivityPanel = (props: any) => {
   const { t }:any = useTranslation()
   const scrollRef = useRef(null);
   const [hideElement, setHideElement] = useState(false);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   const [tabType, setTabType] = useState('pending')
   const changeTab = (type: string) => {

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import usdtIcon from '../../assets/images/icon-usdt.svg'
 import ethIcon from '../../assets/images/icon-eth.svg'
 import { Loading } from 'react-vant'
+import { Pagination } from '../Pagination'
 
 const EpochHistoryPanel = (props: any) => {
   const { t }:any = useTranslation()
@@ -43,6 +44,14 @@ const EpochHistoryPanel = (props: any) => {
     }
   };
 
+  const [current, setCurrent] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
+  const [total, setTotal] = useState(21)
+  const handleChange = (pageNum: any) => {
+    console.log('点击调用后当前页码', pageNum)
+    setCurrent(pageNum)
+  }
+
   useEffect(() => {
     const element: any = scrollRef.current
     element.addEventListener('scroll', handleScroll)
@@ -52,47 +61,55 @@ const EpochHistoryPanel = (props: any) => {
   }, []);
 
   return (
-    <div className='com-panel epoch-history'>
-      <h2>Epoch History</h2>
-      <div ref={scrollRef} className='list-container'>
-      {
-        loading ? <Loading className='cm-loading' size="24px" vertical>
-          Loading...
-        </Loading> : 
-        data.map((item: any) => {
-          return <div className='list-table'  key={`ep-${item.id}`}>
-            <div className='list-tr thead'>
-              <div className='width-left'>
-                <div className='width-td1'>
-                  <span className='title'>{item.title}</span>
-                  <span className='table-ffbf6e-18 tag-sort'># {item.orderBy}</span>
+    <>
+      <div className='com-panel epoch-history'>
+        <h2>Epoch History</h2>
+        <div ref={scrollRef} className='list-container'>
+        {
+          loading ? <Loading className='cm-loading' size="24px" vertical>
+            Loading...
+          </Loading> : 
+          data.map((item: any) => {
+            return <div className='list-table'  key={`ep-${item.id}`}>
+              <div className='list-tr thead'>
+                <div className='width-left'>
+                  <div className='width-td1'>
+                    <span className='title'>{item.title}</span>
+                    <span className='table-ffbf6e-18 tag-sort'># {item.orderBy}</span>
+                  </div>
+                </div>
+              </div>
+              <div className='list-detail'>
+                <div className='list-box-column'>
+                  {/* <div className='width-td4 left'>
+                    <div className='info'>No</div>
+                    <div className='label'>Out of range?</div>
+                  </div>
+                  <div className='line'></div> */}
+                  <div className='width-td4 center'>
+                    <div className='info'>100,000</div>
+                    <div className='label'>Total LP</div>
+                  </div>
+                  <div className='line'></div>
+                  <div className='width-td4 right'>
+                    <div className='info'>200</div>
+                    <div className='label'>Rewards</div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className='list-detail'>
-              <div className='list-box-column'>
-                {/* <div className='width-td4 left'>
-                  <div className='info'>No</div>
-                  <div className='label'>Out of range?</div>
-                </div>
-                <div className='line'></div> */}
-                <div className='width-td4 center'>
-                  <div className='info'>100,000</div>
-                  <div className='label'>Total LP</div>
-                </div>
-                <div className='line'></div>
-                <div className='width-td4 right'>
-                  <div className='info'>200</div>
-                  <div className='label'>Rewards</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        })
-      }
+          })
+        }
+        </div>
+        {hideElement ? <></> : <div className='defalut-mask'></div>}
       </div>
-      {hideElement ? <></> : <div className='defalut-mask'></div>}
-    </div>
+      <Pagination 
+       current={current}
+       pageSize={pageSize}
+       total={total}
+       onChange={handleChange}
+       />
+    </>
   )
 }
 

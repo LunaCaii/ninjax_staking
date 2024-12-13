@@ -54,16 +54,6 @@ const requestHandler = <T>(
   return new Promise<T>((resolve, reject) => {
     response
       .then((res: any) => {
-        // if (res.request.responseURL === 'https://dev-app-api.tabi.com/biz/benefit/exchange') {
-        //   res = {
-        //     data: {
-        //       code: 400,
-        //       message: 'XP不足',
-        //       data: null,
-        //       success: false
-        //     }
-        //   }
-        // }
         const data: any = res.data
         if (data.code !== 200) {
           let e = JSON.stringify(data)

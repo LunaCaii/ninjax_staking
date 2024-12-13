@@ -1,8 +1,9 @@
 import { memo, useRef, useEffect, useState } from 'react'
 import './styles/WithdrawalActivityPanel.scss'
 import { useTranslation } from 'react-i18next'
-import ninjaxSvg from '../../assets/images/ninjax-logo.svg'
 import { Loading } from 'react-vant'
+import ninjaxSvg from '../../assets/images/ninjax-logo.svg'
+import { Pagination } from '../Pagination'
 
 const WithdrawalActivityPanel = (props: any) => {
   const { t }:any = useTranslation()
@@ -35,6 +36,14 @@ const WithdrawalActivityPanel = (props: any) => {
     }
   };
 
+  const [current, setCurrent] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
+  const [total, setTotal] = useState(21)
+  const handleChange = (pageNum: any) => {
+    console.log('点击调用后当前页码', pageNum)
+    setCurrent(pageNum)
+  }
+
   useEffect(() => {
     const element: any = scrollRef.current
     element.addEventListener('scroll', handleScroll)
@@ -44,46 +53,54 @@ const WithdrawalActivityPanel = (props: any) => {
   }, []);
 
   return (
-    <div className='com-panel withdraw-activity'>
-      <div className='box-title'>
-        <h2>Withdrawal Activity</h2>
-        <div className='box-switch'>
-          <div className={`switch-item ${tabType === 'pending' ? 'active' : ''}`} onClick={() => changeTab('pending')}>Pending</div>
-          <div className={`switch-item ${tabType === 'close' ? 'active' : ''}`} onClick={() => changeTab('close')}>Close</div>
+    <>
+      <div className='com-panel withdraw-activity'>
+        <div className='box-title'>
+          <h2>Withdrawal Activity</h2>
+          <div className='box-switch'>
+            <div className={`switch-item ${tabType === 'pending' ? 'active' : ''}`} onClick={() => changeTab('pending')}>Pending</div>
+            <div className={`switch-item ${tabType === 'close' ? 'active' : ''}`} onClick={() => changeTab('close')}>Close</div>
+          </div>
         </div>
-      </div>
-      <div ref={scrollRef} className='list-container'>
-        { 
-          loading ? <Loading className='cm-loading' size="24px" vertical>
-            Loading...
-          </Loading> :
-          data.map((item: any) => {
-            return <div className='list-each-item' key={`ac-${item.id}`}>
-              <div className='com-staking-item-box table-line'>
-                <div className='logo-name'>
-                  <div className='logo'>
-                    <img src={item.imageUrl} alt='' />
+        <div ref={scrollRef} className='list-container'>
+          { 
+            loading ? <Loading className='cm-loading' size="24px" vertical>
+              Loading...
+            </Loading> :
+            data.map((item: any) => {
+              return <div className='list-each-item' key={`ac-${item.id}`}>
+                <div className='com-staking-item-box table-line'>
+                  <div className='logo-name'>
+                    <div className='logo'>
+                      <img src={item.imageUrl} alt='' />
+                    </div>
+                    <div className='name'>{item.name}</div>
                   </div>
-                  <div className='name'>{item.name}</div>
-                </div>
-                <div className='label-value'>
-                  <p className='value'>{item.requestAmount}</p>
-                  <p className='label'>Request Amount</p>
-                </div>
-                <div className='label-value'>
-                  <p className='value'><i className='icon-time'></i><span className='text-time'>{item.claimTime || '--'}</span></p>
-                  <p className='label'>Claim Time</p>
-                </div>
-                <div className='btn-claim'>
-                  <button className={`table-btn-ffdd85 click`}>Claim</button>
+                  <div className='label-value'>
+                    <p className='value'>{item.requestAmount}</p>
+                    <p className='label'>Request Amount</p>
+                  </div>
+                  <div className='label-value'>
+                    <p className='value'><i className='icon-time'></i><span className='text-time'>{item.claimTime || '--'}</span></p>
+                    <p className='label'>Claim Time</p>
+                  </div>
+                  <div className='btn-claim'>
+                    <button className={`table-btn-ffdd85 click`}>Claim</button>
+                  </div>
                 </div>
               </div>
-            </div>
-          })
-        }
-        {hideElement ? <></> : <div className='defalut-mask'></div>}
+            })
+          }
+          {hideElement ? <></> : <div className='defalut-mask'></div>}
+        </div>
       </div>
-    </div>
+      <Pagination 
+       current={current}
+       pageSize={pageSize}
+       total={total}
+       onChange={handleChange}
+       />
+    </>
   )
 }
 

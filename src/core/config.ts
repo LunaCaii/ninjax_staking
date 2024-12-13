@@ -18,7 +18,7 @@ const tabiChain = {
 } as const satisfies Chain;
 
 export const config = getDefaultConfig({
-  appName: 'ninjax_frontend',
+  appName: 'ninjax_staking',
   projectId: '73123f0f99f61cd3ca63cff8b628a188',
   chains: [tabiChain],
   ssr: false,

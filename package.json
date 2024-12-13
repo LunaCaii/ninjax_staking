@@ -49,7 +49,15 @@
     "build:test": "dotenv -e .env.test craco build",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cz": "czg",
+    "commit": "git-cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git",
+      "useEmoji": true
+    }
   },
   "eslintConfig": {
     "extends": [
@@ -68,5 +76,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cz-git": "^1.11.0",
+    "czg": "^1.11.0"
   }
 }

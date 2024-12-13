@@ -8,7 +8,7 @@ import { useAccount } from 'wagmi'
 const NetworkError = (props: any) => {
   const { t }:any = useTranslation()
   const { isConnected } = useAccount()
- 
+  console.log('isConnected', isConnected)
   const network = {
     title: 'Wallet not connected',
     contentText: 'Please keep the internet connected and connect to your wallet to continue.',

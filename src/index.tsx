@@ -20,10 +20,11 @@ console.log('Show Config info ---', config, getLanguage())
 const queryClient = new QueryClient()
 const Entry = memo(() => {
   // const darkMode = useDarkMode()
-  const connectVal = window.localStorage.getItem('connect')
-  console.log('connectVal', !!connectVal)
+  // const connectVal = window.localStorage.getItem('connect')
+  // console.log('connectVal', !!connectVal)
   return (
-    <WagmiProvider config={config} reconnectOnMount={!!connectVal}>
+    <WagmiProvider config={config}>
+      {/* WagmiProvider reconnectOnMount={!!connectVal} */}
       <QueryClientProvider client={queryClient} >
         <RainbowKitProvider locale={getLanguage()} theme={lightTheme()} initialChain={179}>
           <>

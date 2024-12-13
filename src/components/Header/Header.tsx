@@ -32,9 +32,9 @@ const Header = (props: any) => {
         onClick={() => navigate('/staking')}>STAKING</li>
       </ul>
       <div className='hd-connects'>
-        <ConnectButton accountStatus="address"/>
+        <ConnectButton accountStatus="address" showBalance={false}/> 
       </div>
-      {/* { routeName === 'notFound' ? <></> : <NetworkError /> } */}
+      { routeName === 'notFound' ? <></> : <NetworkError /> }
     </div>
   )
 }

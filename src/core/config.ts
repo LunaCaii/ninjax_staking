@@ -1,5 +1,5 @@
 // import { http, createConfig } from 'wagmi'
-import { getDefaultConfig, Chain } from '@rainbow-me/rainbowkit'
+import { getDefaultConfig, Chain, Locale } from '@rainbow-me/rainbowkit'
 const {
   REACT_APP_CHAIN_ID,
   REACT_APP_CHAIN_NAME,
@@ -24,10 +24,9 @@ export const config = getDefaultConfig({
   ssr: false,
 })
 
-export const getLanguage: any = () => {
-  // cn -- 中文； en -- 英文；
+export const getLanguage = (): Locale => {
   const str: any = window.localStorage.getItem('i18nextLng') || 'en'
-  return (str === 'cn' ? 'zh-CN' : 'en-US') || 'en-US'
+  return str === 'cn' ? 'zh-CN' : 'en-US'
 }
 
 // export const config = createConfig({

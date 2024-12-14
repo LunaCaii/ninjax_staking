@@ -4,12 +4,22 @@ import { useTranslation } from 'react-i18next'
 import ninjaxLogoSvg from '../../assets/images/ninjax-logo.svg'
 import StakingFormPanel from '../StakingFormPanel/StakingFormPanel'
 import WithdrawalActivityPanel from '../WithdrawalActivityPanel/WithdrawalActivityPanel'
+import { useAccount, useBalance } from 'wagmi'
 
 const StakingPage = (props: any) => {
   const { t }: any = useTranslation()
+  const { address }: any = useAccount()
+  
+  const stakingTokenBalance = useBalance({
+    address,
+    token: '0xeD7694135312FD786B9d3437B5F012dF0bFAEA35',
+  })
+
+  console.log(stakingTokenBalance.data?.value, '---------')
+
   const _fetch = useCallback(async () => {
-    const tokenInfo = await props.tokenInfo(await props.stakingToken())
-    console.log('------', tokenInfo)
+    // const tokenInfo = await props.tokenInfo(await props.stakingToken())
+    // console.log('------', tokenInfo)
   }, [])
 
   useEffect(() => {

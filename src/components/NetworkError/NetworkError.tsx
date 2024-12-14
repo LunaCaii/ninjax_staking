@@ -1,6 +1,5 @@
 import './styles/NetworkError.scss'
 import { memo } from 'react'
-// import { web3SDK, isMetaMaskInstalled, connectWallet } from '../../common/contract/Web3Index'
 import { useTranslation } from 'react-i18next'
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi'

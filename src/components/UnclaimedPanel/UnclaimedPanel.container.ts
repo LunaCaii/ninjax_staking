@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import UnclaimedPanel from './UnclaimedPanel'
-
 const mapState = () => ({
 })
 

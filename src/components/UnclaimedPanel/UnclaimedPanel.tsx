@@ -1,20 +1,25 @@
 import { memo, useRef, useEffect, useState } from 'react'
 import './styles/UnclaimedPanel.scss'
 import { useTranslation } from 'react-i18next'
-import { useAccount } from 'wagmi'
+import { 
+  useAccount, 
+  // useSendTransaction,
+  useSignMessage
+} from 'wagmi'
 import { UnclaimedCollapse } from '../UnclaimedCollapse'
-import { Loading } from 'react-vant'
+import { Loading, Empty } from 'react-vant'
 import { Pagination } from '../Pagination'
-import { fetchRewardByUserAddress } from '../../common/ajax/index'
+import { fetchRewardByUserAddress, fetchRewardClaim } from '../../common/ajax/index'
 
 const UnclaimedPanel = (props: any) => {
   const { t }:any = useTranslation()
+  const { signMessageAsync } = useSignMessage()
+  // const { sendTransactionAsync } = useSendTransaction()
   const scrollRef = useRef(null);
   const [hideElement, setHideElement] = useState(false);
   const [loading, setLoading] = useState(false)
-  const { address, status, isConnected } = useAccount()
+  let { address, status, isConnected, connector } = useAccount()
   const [data, setData] = useState<any>([])
-
   const handleScroll = () => {
     if (scrollRef.current) {
       const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
@@ -30,14 +35,31 @@ const UnclaimedPanel = (props: any) => {
     console.log('点击调用后当前页码', pageNum)
     setCurrent(pageNum)
   }
-  const handleClaimClick = ({handleClaim, ...other}: any) => {
+
+  const handleClaimClick = async ({handleClaim, ...other}: any) => {
     console.log('当前claim点击事件', other)
+    // 签名
+    const key = String(Math.random())
+    const sign: any = await signMessageAsync({ account: address, message: `${key}`, connector: connector})
+    // 调用接口
+    fetchRewardClaim({
+      userAddress: address,
+      key: key,
+      sign: sign
+    }).then((res: any) => {
+      console.log(res)
+      reloadInitPage()
+    }).catch((error: any) => {})
   }
 
+  const reloadInitPage = () => {
+    setCurrent(1)
+    initPage()
+  }
   const initPage = () => {
     setLoading(true)
     fetchRewardByUserAddress({
-      userAddress: '0xc38c63baf07505160d1292b1b9fa4955333e609b',
+      userAddress: address,
       pageNumber: current,
       pageSize: pageSize
     }).then(({success, code, message, data}: any) => {
@@ -54,8 +76,7 @@ const UnclaimedPanel = (props: any) => {
   }
   useEffect(() => {
     initPage()
-  }, [])
-  useEffect(() => {
+    // scroll
     const element: any = scrollRef.current
     element.addEventListener('scroll', handleScroll)
     return () => {
@@ -71,14 +92,14 @@ const UnclaimedPanel = (props: any) => {
           {
             loading ? <Loading className='cm-loading' size="24px" vertical>
               Loading...
-            </Loading> : 
-            data.map((item: any, index: any) => {
+            </Loading> : total > 0 ?
+              data.map((item: any, index: any) => {
               return <UnclaimedCollapse {...{
                 ...item,
                 index: index + 1,
                 handleClaim: handleClaimClick
               }} key={`cc-${item.epoch}`} />
-            })
+            }) : <Empty image="search" description="查询无结果"/>
           }
         </div>
         {hideElement ? <></> : <div className='defalut-mask'></div>}

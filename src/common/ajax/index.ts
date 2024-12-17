@@ -77,3 +77,20 @@ export const fetchRewardTotal = <T>(params: any) => {
     },
   });
 };
+
+/**
+ *
+ * @param params {
+ * userAddress: string
+ * key: string
+ * sign: string
+ * }
+ * @returns Promise
+ */
+export const fetchRewardClaim = <T>(params: any) => {
+  return request.get<T>("/reward/claim", params, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};

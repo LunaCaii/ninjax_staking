@@ -11,6 +11,9 @@ const mapDispatch = () => ({
     fromWei: (val: string) => web3SDK.fromWei(val),
     tokenInfo: async (tokenAddress: string) => await web3SDK.Token.tokenInfo(tokenAddress),
     stakingToken: async () => await web3SDK.StakingPool.stakingToken(),
+    pendingReward: async () => await web3SDK.StakingPool.pendingReward(),
+    stakedAmount: async () => await web3SDK.StakingPool.stakedAmount(),
+    totalReward: async () => await web3SDK.StakingPool.totalReward(),
 })
 
 export default connect(mapState, mapDispatch)(StakingPage)

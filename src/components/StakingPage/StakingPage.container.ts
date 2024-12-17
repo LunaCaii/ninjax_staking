@@ -1,8 +1,10 @@
 import { connect } from 'react-redux'
 import StakingPage from './StakingPage'
 import { web3SDK } from '../../contract'
+import { RootState } from '../../common/store/reducer'
 
-const mapState = () => ({
+const mapState = (state: RootState) => ({
+    ...state
 })
 
 const mapDispatch = () => ({

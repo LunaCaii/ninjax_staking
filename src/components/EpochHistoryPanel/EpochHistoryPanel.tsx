@@ -46,7 +46,7 @@ const EpochHistoryPanel = (props: any) => {
 
   const [current, setCurrent] = useState(1)
   const [pageSize, setPageSize] = useState(10)
-  const [total, setTotal] = useState(21)
+  const [total, setTotal] = useState(0)
   const handleChange = (pageNum: any) => {
     console.log('点击调用后当前页码', pageNum)
     setCurrent(pageNum)
@@ -108,6 +108,7 @@ const EpochHistoryPanel = (props: any) => {
        pageSize={pageSize}
        total={total}
        onChange={handleChange}
+       pageType={'epochHistory'}
        />
     </>
   )

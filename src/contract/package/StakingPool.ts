@@ -21,6 +21,24 @@ const pendingReward = async (): Promise<string> => {
 }
 
 /**
+ * 查询stakedAmount
+ * @returns 
+ */
+const stakedAmount = async (): Promise<string> => {
+    const [from] = await web3SDK.getAccount()
+    return await (await contractObj()).methods.stakedAmount(from).call()
+}
+
+/**
+ * 查询totalReward
+ * @returns 
+ */
+const totalReward = async (): Promise<string> => {
+    const [from] = await web3SDK.getAccount()
+    return await (await contractObj()).methods.totalReward(from).call()
+}
+
+/**
  * 查询质押的Token
  * @returns 
  */
@@ -118,7 +136,10 @@ export type StakingPoolTypes = {
     claimIndex: (index: string | number) => Promise<any>
     userUnstakeInfo: (index: string | number) => Promise<any>
     allowanceStakingPool: () => Promise<string>,
-    approveStakingPool: () => Promise<any>
+    approveStakingPool: () => Promise<any>,
+    pendingClaim:() => Promise<any>,
+    stakedAmount:() => Promise<any>,
+    totalReward:() => Promise<any>
 }
 
 const exportObj = {
@@ -130,7 +151,9 @@ const exportObj = {
     pendingReward,
     userUnstakeInfo,
     allowanceStakingPool,
-    approveStakingPool
+    approveStakingPool,
+    stakedAmount,
+    totalReward
 }
 
 export default exportObj 

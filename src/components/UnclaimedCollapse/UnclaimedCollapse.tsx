@@ -1,6 +1,8 @@
 import { memo, useEffect, useState } from 'react'
 import './styles/UnclaimedCollapse.scss'
 import { useTranslation } from 'react-i18next'
+import { web3SDK } from '../../contract/index'
+
 
 const UnclaimedCollapse = (props: any) => {
   const { t }:any = useTranslation()
@@ -9,13 +11,17 @@ const UnclaimedCollapse = (props: any) => {
     setIsOpen(!isOpen);
   };
 
+  const handleClaim = () => {
+    props.handleClaim(props)
+  }
+
   return (
-    <div className={`list-table isOpen-${String(isOpen)}`}  key={`up-${props.id}`}>
+    <div className={`list-table isOpen-${String(isOpen)}`}  key={`up-${props.epoch}`}>
       <div className='list-tr thead' onClick={toggleOpen}>
         <div className='width-left'>
           <div className='width-td1 styles2'>
-            <span className='title'>{props.title}</span>
-            <span className='table-ffbf6e-18 tag-sort'># {props.orderBy}</span>
+            <span className='title'>Epoch-{props.epoch}</span>
+            <span className='table-ffbf6e-18 tag-sort'># {props.epoch}</span>
           </div>
           {/* <div className='width-td2'>
             <span className='table-ffbf6e-18 money'>$ {props.totalMoney}</span>
@@ -24,8 +30,8 @@ const UnclaimedCollapse = (props: any) => {
         <div className='width-right styles2'>
           <div className='width-td3'>
             <span className='table-ffffff-16'>Epoch Rewards: </span>
-            <span className='table-ffffff-16 money color-ffbf6e'>1000</span>
-            <span className='table-ffffff-16 color-ffbf6e'> TABI</span>
+            <span className='table-ffffff-16 money color-ffbf6e'>{web3SDK.fromWei(props.epochRewardAmount)}</span>
+            <span className='table-ffffff-16 color-ffbf6e'> {props.tokenSymbol}</span>
           </div>
           <span className='icon-arrow'></span>
         </div>
@@ -68,16 +74,16 @@ const UnclaimedCollapse = (props: any) => {
                 <span className='table-ffffff-16'>&nbsp;</span>
               </div>
               <div className='width-td2 styles2-son'>
-                <span className='table-ffffff-16 color-ffbf6e'>TABI</span>
+                <span className='table-ffffff-16 color-ffbf6e'>{props.tokenSymbol}</span>
               </div>
               <div className='width-td2 styles2-son'>
-                <span className='table-ffffff-16 color-ffbf6e'>100</span>
+                <span className='table-ffffff-16 color-ffbf6e'>{web3SDK.fromWei(props.rewardAmount)}</span>
               </div>
             </div>
           </div>
         </div>
         <div className='box-right'>
-          <button className='table-btn-ffbf6e btn-claim'>Claim</button>
+          <button className={`table-btn-ffbf6e btn-claim ${props.claimed.toString() === 'true' ? 'disabled' : ''}`} onClick={handleClaim}>Claim</button>
         </div>
       </div>
     </div>

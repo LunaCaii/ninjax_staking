@@ -1,10 +1,12 @@
-import { memo, useRef, useEffect, useState } from 'react'
+import { memo, useRef, useEffect, useState, useCallback } from 'react'
 import './styles/WithdrawalActivityPanel.scss'
 import { useTranslation } from 'react-i18next'
 import { Loading } from 'react-vant'
 import { useAccount } from 'wagmi'
 import { fetchStakingList } from '../../common/ajax/index'
 import NullSvg from '../../assets/images/icon-null.svg'
+import ninjaxLogoSvg from '../../assets/images/ninjax-logo.svg'
+import { web3SDK } from '../../contract/index'
 
 const WithdrawalActivityPanel = (props: any) => {
   const { t }:any = useTranslation()
@@ -14,6 +16,7 @@ const WithdrawalActivityPanel = (props: any) => {
   let { address, status, isConnected, connector } = useAccount()
   const [data, setData] = useState<any>([])
   const [tabType, setTabType] = useState('pending')
+  const [tokenInfo, setTokenInfo] = useState<any>({})
   const changeTab = (type: string) => {
     setTabType(type)
   }
@@ -24,7 +27,7 @@ const WithdrawalActivityPanel = (props: any) => {
       setHideElement(scrollHeight - scrollTop - clientHeight <= 1); // 留一个像素的边距
     }
   };
-  const initPage = async () => {
+  const queryList = async () => {
     setLoading(true)
     try {
       const {code, data, message, success}:any = await fetchStakingList({
@@ -43,6 +46,15 @@ const WithdrawalActivityPanel = (props: any) => {
       setLoading(false)
     }
   }
+
+  const initPage = useCallback(async () => {
+    // Query Token name && Token Details
+    const tokenResult: any = await web3SDK.Token.tokenInfo(await web3SDK.StakingPool.stakingToken())
+    setTokenInfo(tokenResult)
+    // query staking list
+    queryList()
+  }, [])
+
   useEffect(() => {
     initPage()
     const element: any = scrollRef.current
@@ -57,10 +69,10 @@ const WithdrawalActivityPanel = (props: any) => {
       <div className='com-panel withdraw-activity'>
         <div className='box-title'>
           <h2>Withdrawal Activity</h2>
-          <div className='box-switch'>
+          {/* <div className='box-switch'>
             <div className={`switch-item ${tabType === 'pending' ? 'active' : ''}`} onClick={() => changeTab('pending')}>Pending</div>
             <div className={`switch-item ${tabType === 'close' ? 'active' : ''}`} onClick={() => changeTab('close')}>Close</div>
-          </div>
+          </div> */}
         </div>
         <div ref={scrollRef} className='list-container'>
           { 
@@ -73,12 +85,12 @@ const WithdrawalActivityPanel = (props: any) => {
                 <div className='com-staking-item-box table-line'>
                   <div className='logo-name'>
                     <div className='logo'>
-                      <img src={item.imageUrl} alt='' />
+                      <img src={ninjaxLogoSvg} alt='' />
                     </div>
-                    <div className='name'>{item.name}</div>
+                    <div className='name'>{tokenInfo.symbol}</div>
                   </div>
                   <div className='label-value'>
-                    <p className='value'>{item.requestAmount}</p>
+                    <p className='value'>{web3SDK.fromWei(item.amount)}</p>
                     <p className='label'>Request Amount</p>
                   </div>
                   <div className='label-value'>

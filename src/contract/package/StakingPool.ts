@@ -57,7 +57,7 @@ const allowanceStakingPool = async (): Promise<string> => {
     const [from] = await web3SDK.getAccount()
     const _stakingToken = await stakingToken()
     const tokenContractObj = await web3SDK.createContractObj(ERC20ABI, _stakingToken as string)
-    return await tokenContractObj.methods.allowance(from, _stakingToken).call()
+    return await tokenContractObj.methods.allowance(from, REACT_APP_STAKING_POOL).call()
 }
 
 const approveStakingPool = async (): Promise<any> => {
@@ -65,8 +65,8 @@ const approveStakingPool = async (): Promise<any> => {
     const _stakingToken = await stakingToken()
     const tokenContractObj = await web3SDK.createContractObj(ERC20ABI, _stakingToken as string)
     const gasPrice = await web3SDK.getGasPrice()
-    const gas = await tokenContractObj.methods.approve(_stakingToken, web3SDK.max).estimateGas({ from })
-    return await tokenContractObj.methods.approve(_stakingToken, web3SDK.max).send({ from, gas, gasPrice })
+    const gas = await tokenContractObj.methods.approve(REACT_APP_STAKING_POOL, web3SDK.max).estimateGas({ from })
+    return await tokenContractObj.methods.approve(REACT_APP_STAKING_POOL, web3SDK.max).send({ from, gas, gasPrice })
 }
 
 /**

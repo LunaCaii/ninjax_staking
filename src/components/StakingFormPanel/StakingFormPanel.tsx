@@ -53,13 +53,10 @@ const StakingFormPanel = (props: any) => {
     }
   }
   const handleUnstake = async() => {
-    const value = !!props?.initialData?.stakingToken
-      ? props.fromWei(stakingTokenBalance.data?.value)
-      : ''
     if (!unStakeInputVal) {
       return Toast(`请先输入`)
-    } else if (unStakeInputVal > value) {
-      return Toast(`您的输入超出${value}`)
+    } else if (unStakeInputVal > unStakeMaxAmount) {
+      return Toast(`您的输入超出${unStakeMaxAmount}`)
     }
     try {
       await web3SDK.StakingPool.unstake(unStakeInputVal)

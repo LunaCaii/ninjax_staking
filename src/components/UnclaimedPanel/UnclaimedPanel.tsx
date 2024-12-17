@@ -7,9 +7,10 @@ import {
   useSignMessage
 } from 'wagmi'
 import { UnclaimedCollapse } from '../UnclaimedCollapse'
-import { Loading, Empty } from 'react-vant'
+import { Loading } from 'react-vant'
 import { Pagination } from '../Pagination'
 import { fetchRewardByUserAddress, fetchRewardClaim } from '../../common/ajax/index'
+import NullSvg from '../../assets/images/icon-null.svg'
 
 const UnclaimedPanel = (props: any) => {
   const { t }:any = useTranslation()
@@ -99,7 +100,10 @@ const UnclaimedPanel = (props: any) => {
                 index: index + 1,
                 handleClaim: handleClaimClick
               }} key={`cc-${item.epoch}`} />
-            }) : <Empty image="search" description="查询无结果"/>
+            }) : <div className='null-data'>
+              <img src={NullSvg} alt=''  width={300}/>
+              <p>查询无结果</p>
+            </div>
           }
         </div>
         {hideElement ? <></> : <div className='defalut-mask'></div>}

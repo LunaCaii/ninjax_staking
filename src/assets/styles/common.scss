@@ -344,6 +344,15 @@ input {
 .rv-empty {
   background: var(--color-6b696d) !important;
 }
+.null-data {
+  text-align: center;
+  margin: 40px auto;
+  p {
+    font-size: var(--font-size-20);
+    letter-spacing: 2px;
+    color: var(--color-ffffff);
+  }
+}
 // .footer-box {}
 
 /* 媒体查询 */

@@ -2,32 +2,21 @@ import { memo, useRef, useEffect, useState } from 'react'
 import './styles/WithdrawalActivityPanel.scss'
 import { useTranslation } from 'react-i18next'
 import { Loading } from 'react-vant'
-import ninjaxSvg from '../../assets/images/ninjax-logo.svg'
-import { Pagination } from '../Pagination'
+import { useAccount } from 'wagmi'
+import { fetchStakingList } from '../../common/ajax/index'
+import NullSvg from '../../assets/images/icon-null.svg'
 
 const WithdrawalActivityPanel = (props: any) => {
   const { t }:any = useTranslation()
   const scrollRef = useRef(null);
   const [hideElement, setHideElement] = useState(false);
   const [loading, setLoading] = useState(false)
-
+  let { address, status, isConnected, connector } = useAccount()
+  const [data, setData] = useState<any>([])
   const [tabType, setTabType] = useState('pending')
   const changeTab = (type: string) => {
     setTabType(type)
   }
-
-  let list: any = []
-  Array(10).fill(1).map((item: any, index: any) => {
-    list.push({
-      id: index + 1,
-      imageUrl: ninjaxSvg,
-      name: `NINJAX-${index}`,
-      requestAmount: 10.2,
-      claimTime: 'In 5d 2h'
-    })
-  })
-  const data = list;
-
   const handleScroll = () => {
     if (scrollRef.current) {
       const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
@@ -35,16 +24,27 @@ const WithdrawalActivityPanel = (props: any) => {
       setHideElement(scrollHeight - scrollTop - clientHeight <= 1); // 留一个像素的边距
     }
   };
-
-  const [current, setCurrent] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
-  const [total, setTotal] = useState(21)
-  const handleChange = (pageNum: any) => {
-    console.log('点击调用后当前页码', pageNum)
-    setCurrent(pageNum)
+  const initPage = async () => {
+    setLoading(true)
+    try {
+      const {code, data, message, success}:any = await fetchStakingList({
+        userAddress: address,
+        type: 0
+      })
+      if (success && code === 200) {
+        setData(data.content || [])
+      } else {
+        setData([])
+      }
+    } catch(e) {
+      setData([])
+      console.log('---查询获取质押/解质押记录异常', e)
+    } finally {
+      setLoading(false)
+    }
   }
-
   useEffect(() => {
+    initPage()
     const element: any = scrollRef.current
     element.addEventListener('scroll', handleScroll)
     return () => {
@@ -67,6 +67,7 @@ const WithdrawalActivityPanel = (props: any) => {
             loading ? <Loading className='cm-loading' size="24px" vertical>
               Loading...
             </Loading> :
+            data.length > 0 ?
             data.map((item: any) => {
               return <div className='list-each-item' key={`ac-${item.id}`}>
                 <div className='com-staking-item-box table-line'>
@@ -89,17 +90,14 @@ const WithdrawalActivityPanel = (props: any) => {
                   </div>
                 </div>
               </div>
-            })
+            }) : <div className='null-data'>
+              <img src={NullSvg} alt=''  width={300}/>
+              <p>查询无结果</p>
+            </div>
           }
           {hideElement ? <></> : <div className='defalut-mask'></div>}
         </div>
       </div>
-      <Pagination 
-       current={current}
-       pageSize={pageSize}
-       total={total}
-       onChange={handleChange}
-       />
     </>
   )
 }

@@ -5,7 +5,7 @@ import { Loading } from 'react-vant'
 import { useAccount } from 'wagmi'
 import { fetchStakingList } from '../../common/ajax/index'
 import NullSvg from '../../assets/images/icon-null.svg'
-import ninjaxLogoSvg from '../../assets/images/ninjax-logo.svg'
+import ninjaxLogoSvg from '../../assets/images/ninjax-logo.png'
 import { web3SDK } from '../../contract/index'
 
 const WithdrawalActivityPanel = (props: any) => {
@@ -15,11 +15,12 @@ const WithdrawalActivityPanel = (props: any) => {
   const [loading, setLoading] = useState(false)
   let { address, status, isConnected, connector } = useAccount()
   const [data, setData] = useState<any>([])
-  const [tabType, setTabType] = useState('pending')
+  // const [tabType, setTabType] = useState('pending')
   const [tokenInfo, setTokenInfo] = useState<any>({})
-  const changeTab = (type: string) => {
-    setTabType(type)
-  }
+  const [blockNumber, setBlockNumber] = useState<any>()
+  // const changeTab = (type: string) => {
+  //   setTabType(type)
+  // }
   const handleScroll = () => {
     if (scrollRef.current) {
       const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
@@ -32,9 +33,15 @@ const WithdrawalActivityPanel = (props: any) => {
     try {
       const {code, data, message, success}:any = await fetchStakingList({
         userAddress: address,
-        type: 0
+        type: -1
       })
       if (success && code === 200) {
+        const _blockNumber: any = await web3SDK.getBlockNumber()
+        setBlockNumber(web3SDK.fromWei(_blockNumber))
+        // const _list = data.content.map((item: any) => {
+        //   const _unlockBlock = item.unlockBlock || ''
+        //   item.claimTime = 0
+        // })
         setData(data.content || [])
       } else {
         setData([])
@@ -47,13 +54,13 @@ const WithdrawalActivityPanel = (props: any) => {
     }
   }
 
-  const initPage = useCallback(async () => {
+  const initPage = async () => {
     // Query Token name && Token Details
     const tokenResult: any = await web3SDK.Token.tokenInfo(await web3SDK.StakingPool.stakingToken())
     setTokenInfo(tokenResult)
     // query staking list
     queryList()
-  }, [])
+  }
 
   useEffect(() => {
     initPage()
@@ -85,13 +92,17 @@ const WithdrawalActivityPanel = (props: any) => {
                 <div className='com-staking-item-box table-line'>
                   <div className='logo-name'>
                     <div className='logo'>
-                      <img src={ninjaxLogoSvg} alt='' />
+                      <img src={ninjaxLogoSvg} alt='' width={36} />
                     </div>
                     <div className='name'>{tokenInfo.symbol}</div>
                   </div>
                   <div className='label-value'>
                     <p className='value'>{web3SDK.fromWei(item.amount)}</p>
                     <p className='label'>Request Amount</p>
+                  </div>
+                  <div className='label-value'>
+                    <p className='value'>{item.type === 1 ? 'Stake' : 'UnStake'}</p>
+                    <p className='label'>Transcation Type</p>
                   </div>
                   <div className='label-value'>
                     <p className='value'><i className='icon-time'></i><span className='text-time'>{item.claimTime || '--'}</span></p>

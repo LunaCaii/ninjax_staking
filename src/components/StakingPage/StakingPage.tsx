@@ -2,7 +2,7 @@ import { memo, useState, useEffect, useCallback } from 'react'
 import './styles/StakingPage.scss'
 import { useTranslation } from 'react-i18next'
 import { useAccount } from 'wagmi'
-import ninjaxLogoSvg from '../../assets/images/ninjax-logo.svg'
+import ninjaxLogoSvg from '../../assets/images/ninjax-logo.png'
 import StakingFormPanel from '../StakingFormPanel/StakingFormPanel'
 import WithdrawalActivityPanel from '../WithdrawalActivityPanel/WithdrawalActivityPanel'
 
@@ -46,7 +46,7 @@ const StakingPage = (props: any) => {
           <div className="com-staking-item-box">
             <div className="logo-name">
               <div className="logo">
-                <img src={ninjaxLogoSvg} alt="" />
+                <img src={ninjaxLogoSvg} alt="" width={50} />
               </div>
               <div className="name">{tokenInfo.symbol}</div>
             </div>

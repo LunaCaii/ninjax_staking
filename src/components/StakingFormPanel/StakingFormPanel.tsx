@@ -2,13 +2,14 @@ import { memo, useEffect, useState } from 'react'
 import './styles/StakingFormPanel.scss'
 import { useTranslation } from 'react-i18next'
 import { useAccount, useBalance } from 'wagmi'
-import { Toast } from 'react-vant'
+import { Toast, Overlay, Loading } from 'react-vant'
 import { web3SDK } from '../../contract'
 import Bignumber from 'bignumber.js'
 
 const StakingFormPanel = (props: any) => {
   const { t }: any = useTranslation()
   const { address }: any = useAccount()
+  const [loading, setLoading] = useState(false)
   const stakingTokenBalance = useBalance({
     address,
     token: props?.initialData?.stakingToken,
@@ -60,11 +61,14 @@ const StakingFormPanel = (props: any) => {
       return Toast(`您的输入超出${unStakeMaxAmount}`)
     }
     try {
+      setLoading(true)
       await web3SDK.StakingPool.unstake(unStakeInputVal)
       Toast('解除质押成功')
     } catch(e: any){
       console.log('---查询解除质押方法error',e)
       Toast('解除质押失败')
+    } finally {
+      setLoading(false)
     }
   }
   const queryAllowanceStakingPool = async () => {
@@ -81,12 +85,15 @@ const StakingFormPanel = (props: any) => {
 
   const handleApprove = async () => {
     try {
+      setLoading(true)
       await web3SDK.StakingPool.approveStakingPool()
       await queryAllowanceStakingPool()
       Toast('授权成功')
     } catch (e: any) {
       console.log('---查询授权方法error', e)
       Toast('授权失败')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -99,11 +106,14 @@ const StakingFormPanel = (props: any) => {
       return Toast(`您的输入超出${userAmount}`)
     }
     try {
+      setLoading(true)
       const result: any = await web3SDK.StakingPool.stake(stakeInputVal)
       Toast('质押成功')
     } catch (e: any) {
       console.log('---查询质押方法error', e)
       Toast('质押失败')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -195,6 +205,14 @@ const StakingFormPanel = (props: any) => {
           <p className="text-error">* You can unstake after 7 days.</p>
         </>
       )}
+    <Overlay visible={loading}  style={{
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+      <Loading className='cm-loading inline' size="24px">Loading...</Loading>
+    </Overlay>
     </div>
   )
 }

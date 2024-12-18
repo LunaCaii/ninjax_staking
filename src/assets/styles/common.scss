@@ -361,6 +361,10 @@ input {
 .rv-empty {
   background: var(--color-6b696d) !important;
 }
+svg[data-icon="replay"] {
+  color: var(--color-ffffff);
+  cursor: pointer;
+}
 .null-data {
   text-align: center;
   margin: 40px auto;

@@ -5,6 +5,7 @@ import { useAccount, useBalance } from 'wagmi'
 import { Toast, Overlay, Loading } from 'react-vant'
 import { web3SDK } from '../../contract'
 import Bignumber from 'bignumber.js'
+import eventBus from '../../common/utils/EventBus'
 
 const StakingFormPanel = (props: any) => {
   const { t }: any = useTranslation()
@@ -20,7 +21,6 @@ const StakingFormPanel = (props: any) => {
       : ''
 
   const [tabType, setTabType] = useState('stake')
-  const [unStakeMaxAmount, setUnStakeMaxAmount] = useState('') //  解质押最大可输入数量
   const [allowAmount, setAllowAmount] = useState('')
   const [stakeInputVal, setStakeInputVal] = useState('') // 质押输入数量
   const [unStakeInputVal, setUnStakeInputVal] = useState('') // 解质押输入数量
@@ -36,24 +36,38 @@ const StakingFormPanel = (props: any) => {
       _maxVal = Number(userAmount + '')
       setStakeInputVal(_maxVal)
     } else {
-      _maxVal = unStakeMaxAmount
+      _maxVal = props.fromWei(userInfo.amount)
       setUnStakeInputVal(_maxVal)
+    }
+  }
+
+  const _initStakeOrUnstake = async(type: string) => {
+    if (type === 'staking') {
+      // query stake max amount (userAmount)
+      if (address) {
+        try {
+          const _allowAmount = await web3SDK.StakingPool.allowanceStakingPool()
+          console.log('---允许质押数量为', props.fromWei(_allowAmount))
+          setAllowAmount(props.fromWei(_allowAmount))
+        } catch(e) {
+          console.log('---查询允许质押方法error',e)
+        }
+      }
+    } else {
+      // query unstake max amount (pendingClaim)
+      try {
+        setUserInfo(await props.userInfo())
+        console.log('当前userInfo内容', userInfo)
+      } catch(e: any){
+        console.log('---查询userInfo当前可unstake数量error',e)
+      }
     }
   }
   const changeTab = async(type: string) => {
     setTabType(type)
-    if (type === 'stake') {
-      // query stake max amount (userAmount)
-      queryAllowanceStakingPool()
-    } else {
-      // query unstake max amount (pendingClaim)
-      try {
-        const _unVal:any = await web3SDK.StakingPool.pendingClaim()
-        setUnStakeMaxAmount(props.fromWei(_unVal))
-      } catch(e: any){
-        console.log('---查询查询已解锁的解质押数量error',e)
-      }
-    }
+    setStakeInputVal('')
+    setUnStakeInputVal('')
+    _initStakeOrUnstake(type)
   }
   const handleUnstake = async() => {
     if (!unStakeInputVal) {
@@ -64,23 +78,14 @@ const StakingFormPanel = (props: any) => {
     try {
       setLoading(true)
       await web3SDK.StakingPool.unstake(unStakeInputVal)
+      await _initStakeOrUnstake('unStake')
       Toast('解除质押成功')
     } catch(e: any){
       console.log('---查询解除质押方法error',e)
       Toast('解除质押失败')
     } finally {
+      sendMessage()
       setLoading(false)
-    }
-  }
-  const queryAllowanceStakingPool = async () => {
-    if (address) {
-      try {
-        const _allowAmount = await web3SDK.StakingPool.allowanceStakingPool()
-        console.log('---允许质押数量为', props.fromWei(_allowAmount))
-        setAllowAmount(props.fromWei(_allowAmount))
-      } catch(e) {
-        console.log('---查询允许质押方法error',e)
-      }
     }
   }
 
@@ -88,16 +93,16 @@ const StakingFormPanel = (props: any) => {
     try {
       setLoading(true)
       await web3SDK.StakingPool.approveStakingPool()
-      await queryAllowanceStakingPool()
+      await _initStakeOrUnstake('stake')
       Toast('授权成功')
     } catch (e: any) {
       console.log('---查询授权方法error', e)
       Toast('授权失败')
     } finally {
+      // sendMessage()
       setLoading(false)
     }
   }
-
 
   const handleStake = async () => {
     // 执行stake
@@ -108,23 +113,27 @@ const StakingFormPanel = (props: any) => {
     }
     try {
       setLoading(true)
-      const result: any = await web3SDK.StakingPool.stake(stakeInputVal)
+      await web3SDK.StakingPool.stake(stakeInputVal)
+      await _initStakeOrUnstake('stake')
       Toast('质押成功')
     } catch (e: any) {
       console.log('---查询质押方法error', e)
       Toast('质押失败')
     } finally {
+      sendMessage()
       setLoading(false)
     }
   }
 
+  const sendMessage = () => {
+    eventBus.emit('reload-init')
+  }
+
   const fetch = useCallback(async () => { 
-    setUserInfo(await props.userInfo())
+    _initStakeOrUnstake('stake')
   },[])
 
-  // 查询
   useEffect(() => {
-    queryAllowanceStakingPool()
     fetch()
   }, [])
   return (

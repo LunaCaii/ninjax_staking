@@ -8,6 +8,8 @@ import { Pagination } from '../Pagination'
 import NullSvg from '../../assets/images/icon-null.svg'
 import ninjaxLogoSvg from '../../assets/images/ninjax-logo.png'
 import { web3SDK } from '../../contract/index'
+import eventBus from '../../common/utils/EventBus'
+import { Replay } from '@react-vant/icons'
 
 const WithdrawalActivityPanel = (props: any) => {
   const { t }:any = useTranslation()
@@ -69,7 +71,7 @@ const WithdrawalActivityPanel = (props: any) => {
     console.log('点击调用后当前页码', pageNum)
     setCurrent(pageNum)
   }
-  const reloadInitPage = () => {
+  const reloadInit = () => {
     setCurrent(1)
     initPage()
   }
@@ -82,11 +84,13 @@ const WithdrawalActivityPanel = (props: any) => {
   }
   useEffect(() => {
     initPage()
+    eventBus.on('reload-init', reloadInit)
     // scroll
     const element: any = scrollRef.current
     element.addEventListener('scroll', handleScroll)
     return () => {
       element.removeEventListener('scroll', handleScroll);
+      eventBus.off('reload-init', reloadInit)
     };
   }, []);
   return (
@@ -98,6 +102,9 @@ const WithdrawalActivityPanel = (props: any) => {
             <div className={`switch-item ${tabType === 'pending' ? 'active' : ''}`} onClick={() => changeTab('pending')}>Pending</div>
             <div className={`switch-item ${tabType === 'close' ? 'active' : ''}`} onClick={() => changeTab('close')}>Close</div>
           </div> */}
+          <div className='box-reload' onClick={reloadInit}>
+            <Replay fontSize={26} />Reload
+          </div>
         </div>
         <div ref={scrollRef} className='list-container'>
           { 

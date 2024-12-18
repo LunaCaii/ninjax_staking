@@ -5,6 +5,7 @@ import { useAccount } from 'wagmi'
 import ninjaxLogoSvg from '../../assets/images/ninjax-logo.png'
 import StakingFormPanel from '../StakingFormPanel/StakingFormPanel'
 import WithdrawalActivityPanel from '../WithdrawalActivityPanel/WithdrawalActivityPanel'
+import eventBus from '../../common/utils/EventBus'
 
 const StakingPage = (props: any) => {
   const { t }: any = useTranslation()
@@ -37,6 +38,10 @@ const StakingPage = (props: any) => {
 
   useEffect(() => {
     initPage()
+    eventBus.on('reload-init', initPage)
+    return () => {
+      eventBus.off('reload-init', initPage)
+    };
   }, [])
   return (
     <div className="page-staking">
@@ -90,10 +95,10 @@ const StakingPage = (props: any) => {
       <div className="body-staking">
         <div className="table-panel">
           <div className="table-panel-item staking-from">
-            <StakingFormPanel {...props} />
+            <StakingFormPanel {...props}/>
           </div>
           <div className="table-panel-item staking-activity">
-            <WithdrawalActivityPanel />
+            <WithdrawalActivityPanel/>
           </div>
         </div>
       </div>

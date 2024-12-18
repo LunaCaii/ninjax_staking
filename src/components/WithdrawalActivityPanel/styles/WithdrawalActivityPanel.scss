@@ -5,6 +5,13 @@
       box-sizing: border-box;
       justify-content: space-between;
       align-items: center;
+      .box-reload {
+        display: flex;
+        box-sizing: border-box;
+        align-items: center;
+        color: var(--color-ffffff);
+        cursor: pointer;
+      }
       .box-switch {
         display: flex;
         box-sizing: border-box;

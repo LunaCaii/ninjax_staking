@@ -43,6 +43,7 @@
   --font-weight-black: 900;
 
   --font-size-40: 40px;
+  --font-size-28: 28px;
   --font-size-26: 26px;
   --font-size-24: 24px;
   --font-size-20: 20px;
@@ -202,7 +203,7 @@
     margin-top: 20px;
     .page-last {
       font-family: var(--font-family-nokora);
-      font-size: var(--font-size-40);
+      font-size: var(--font-size-28);
       font-weight: var(--font-weight-regular);
       color: var(--color-ffffff);
       cursor: pointer;
@@ -218,7 +219,7 @@
       gap: 20px;
       .page-num {
         font-family: var(--font-family-nokora);
-        font-size: var(--font-size-24);
+        font-size: var(--font-size-20);
         font-weight: var(--font-weight-regular);
         color: var(--color-ffffff);
         cursor: pointer;
@@ -231,7 +232,7 @@
     }
     .page-next {
       font-family: var(--font-family-nokora);
-      font-size: var(--font-size-40);
+      font-size: var(--font-size-28);
       font-weight: var(--font-weight-regular);
       color: var(--color-ffffff);
       cursor: pointer;

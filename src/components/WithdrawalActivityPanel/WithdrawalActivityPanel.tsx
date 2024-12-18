@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Loading, CountDown } from 'react-vant'
 import { useAccount } from 'wagmi'
 import { fetchStakingList } from '../../common/ajax/index'
+import { Pagination } from '../Pagination'
 import NullSvg from '../../assets/images/icon-null.svg'
 import ninjaxLogoSvg from '../../assets/images/ninjax-logo.png'
 import { web3SDK } from '../../contract/index'
@@ -33,8 +34,11 @@ const WithdrawalActivityPanel = (props: any) => {
     try {
       const {code, data, message, success}:any = await fetchStakingList({
         userAddress: address,
-        type: -1
+        type: -1,
+        pageNumber: current,
+        pageSize: pageSize
       })
+      const {content, totalElements, ...other} = data
       if (success && code === 200) {
         const _blockNumber: any = await web3SDK.getBlockNumber()
         setBlockNumber(web3SDK.fromWei(_blockNumber))
@@ -42,35 +46,47 @@ const WithdrawalActivityPanel = (props: any) => {
         //   const _unlockBlock = item.unlockBlock || ''
         //   item.claimTime = 0
         // })
-        setData(data.content || [])
+        setData(content || [])
+        setTotal(totalElements)
       } else {
         setData([])
+        setTotal(0)
       }
     } catch(e) {
       setData([])
+      setTotal(0)
       console.log('---查询获取质押/解质押记录异常', e)
     } finally {
       setLoading(false)
     }
   }
-
-  const initPage = async () => {
+  const [current, setCurrent] = useState<number>(1)
+  const [pageSize, setPageSize] = useState<number>(10)
+  const [total, setTotal] = useState<number>(0)
+  const handleChange = (pageNum: any) => {
+    console.log('点击调用后当前页码', pageNum)
+    setCurrent(pageNum)
+  }
+  const reloadInitPage = () => {
+    setCurrent(1)
+    initPage()
+  }
+  const initPage = async() => {
     // Query Token name && Token Details
     const tokenResult: any = await web3SDK.Token.tokenInfo(await web3SDK.StakingPool.stakingToken())
     setTokenInfo(tokenResult)
     // query staking list
     queryList()
   }
-
   useEffect(() => {
     initPage()
+    // scroll
     const element: any = scrollRef.current
     element.addEventListener('scroll', handleScroll)
     return () => {
       element.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
   return (
     <>
       <div className='com-panel withdraw-activity'>
@@ -121,6 +137,15 @@ const WithdrawalActivityPanel = (props: any) => {
           {hideElement ? <></> : <div className='defalut-mask'></div>}
         </div>
       </div>
+      { total > 0 ? 
+        <Pagination 
+        current={current}
+        pageSize={pageSize}
+        total={total}
+        onChange={handleChange}
+        pageType={'withdrawActivityPanel'}
+        /> : <></>
+      }
     </>
   )
 }

@@ -34,11 +34,10 @@ const EpochHistoryPanel = (props: any) => {
     console.log('点击调用后当前页码', pageNum)
     setCurrent(pageNum)
   }
-  const reloadInitPage = () => {
-    setCurrent(1)
-    initPage()
-  }
-
+  // const reloadInitPage = () => {
+  //   setCurrent(1)
+  //   initPage()
+  // }
   const initPage = () => {
     setLoading(true)
     fetchRewardByUserAddress({

@@ -20,7 +20,7 @@ const WithdrawalActivityPanel = (props: any) => {
   const [data, setData] = useState<any>([])
   // const [tabType, setTabType] = useState('pending')
   const [tokenInfo, setTokenInfo] = useState<any>({})
-  const [blockNumber, setBlockNumber] = useState<any>()
+  const [blockNumber, setBlockNumber] = useState<number>(0)
   // const changeTab = (type: string) => {
   //   setTabType(type)
   // }
@@ -42,10 +42,6 @@ const WithdrawalActivityPanel = (props: any) => {
       })
       const {content, totalElements, ...other} = data
       if (success && code === 200) {
-        const _blockNumber: any = await web3SDK.getBlockNumber()
-        console.log(_blockNumber,'-----');
-          
-        setBlockNumber(web3SDK.fromWei(_blockNumber))
         // const _list = data.content.map((item: any) => {
         //   const _unlockBlock = item.unlockBlock || ''
         //   item.claimTime = 0
@@ -81,6 +77,7 @@ const WithdrawalActivityPanel = (props: any) => {
     setTokenInfo(tokenResult)
     // query staking list
     queryList()
+    setBlockNumber(Number(await web3SDK.getBlockNumber()))
   }
   useEffect(() => {
     initPage()
@@ -130,7 +127,18 @@ const WithdrawalActivityPanel = (props: any) => {
                     <p className='label'>Transcation Type</p>
                   </div> */}
                   <div className='label-value'>
-                    <div className='value'><i className='icon-time'></i><CountDown time={30 * 60 * 60 * 1000} format="DD d HH h" /></div>
+                    
+                  <div className="value">
+                    <i className="icon-time"></i>
+                    {Number(item.unlockBlock) - Number(blockNumber) > 0 ? (
+                      <CountDown
+                        time={(Number(item.unlockBlock) - Number(blockNumber)) * 5 * 1000}
+                        format="DD d HH h mm m ss s"
+                      />
+                    ) : (
+                      'Now'
+                    )}
+                  </div>
                     <p className='label'>Claim Time</p>
                   </div>
                   <div className='btn-claim'>
@@ -140,7 +148,7 @@ const WithdrawalActivityPanel = (props: any) => {
               </div>
             }) : <div className='null-data'>
               <img src={NullSvg} alt=''  width={300}/>
-              <p>查询无结果</p>
+              <p>No Data</p>
             </div>
           }
           {hideElement ? <></> : <div className='defalut-mask'></div>}

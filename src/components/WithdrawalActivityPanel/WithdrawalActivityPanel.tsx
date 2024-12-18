@@ -1,7 +1,7 @@
 import { memo, useRef, useEffect, useState, useCallback } from 'react'
 import './styles/WithdrawalActivityPanel.scss'
 import { useTranslation } from 'react-i18next'
-import { Loading } from 'react-vant'
+import { Loading, CountDown } from 'react-vant'
 import { useAccount } from 'wagmi'
 import { fetchStakingList } from '../../common/ajax/index'
 import NullSvg from '../../assets/images/icon-null.svg'
@@ -105,11 +105,11 @@ const WithdrawalActivityPanel = (props: any) => {
                     <p className='label'>Transcation Type</p>
                   </div>
                   <div className='label-value'>
-                    <p className='value'><i className='icon-time'></i><span className='text-time'>{item.claimTime || '--'}</span></p>
+                    <p className='value'><i className='icon-time'></i><CountDown time={30 * 60 * 60 * 1000} format="DD d HH h" /></p>
                     <p className='label'>Claim Time</p>
                   </div>
                   <div className='btn-claim'>
-                    <button className={`table-btn-ffdd85 click`}>Claim</button>
+                    <button className={`table-btn-ffdd85 click `}>Claim</button>
                   </div>
                 </div>
               </div>

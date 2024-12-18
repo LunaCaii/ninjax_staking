@@ -326,10 +326,19 @@ input {
         display: inline-block;
         vertical-align: middle;
         width: 15px;
-        height: 15px;
+        height: 20px;
         background: url('../../assets/images/icon-time.svg');
         background-repeat: no-repeat;
         margin-right: 6px;
+      }
+      .rv-count-down {
+        display: inline-block;
+        vertical-align: middle;
+        font-family: var(--font-family-nokora);
+        font-size: var(--font-size-18);
+        font-weight: var(--font-weight-bold);
+        height: var(--line-height-24);
+        color: var(--color-ffffff);
       }
       .text-time {
         display: inline-block;

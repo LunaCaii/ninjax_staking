@@ -1,41 +1,24 @@
 import { memo, useRef, useEffect, useState } from 'react'
 import './styles/EpochHistoryPanel.scss'
 import { useTranslation } from 'react-i18next'
-import usdtIcon from '../../assets/images/icon-usdt.svg'
-import ethIcon from '../../assets/images/icon-eth.svg'
 import { Loading } from 'react-vant'
+import { 
+  useAccount, 
+  // useSendTransaction,
+  // useSignMessage
+} from 'wagmi'
 import { Pagination } from '../Pagination'
+import NullSvg from '../../assets/images/icon-null.svg'
+import { web3SDK } from '../../contract/index'
+import { fetchRewardByUserAddress } from '../../common/ajax/index'
 
 const EpochHistoryPanel = (props: any) => {
   const { t }:any = useTranslation()
   const scrollRef = useRef(null);
   const [hideElement, setHideElement] = useState(false);
   const [loading, setLoading] = useState(false)
-
-  let list: any = []
-  // eslint-disable-next-line array-callback-return
-  Array(10).fill(1).map((item: any, index: any) => {
-    list.push({
-      id: index+1,
-      title: `Epoch-${index+1}`,
-      orderBy: index+1,
-      totalMoney: 2000,
-      list: [
-        {
-          imageUrl: usdtIcon,
-          name: 'USDT',
-          money: 1000
-        },
-        {
-          imageUrl: ethIcon,
-          name: 'ETH',
-          money: 1000
-        }
-      ]
-    })
-  })
-  const data = list;
-  
+  let { address, status, isConnected, connector } = useAccount()
+  const [data, setData] = useState<any>([])
   const handleScroll = () => {
     if (scrollRef.current) {
       const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
@@ -44,15 +27,39 @@ const EpochHistoryPanel = (props: any) => {
     }
   };
 
-  const [current, setCurrent] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
-  const [total, setTotal] = useState(0)
+  const [current, setCurrent] = useState<number>(1)
+  const [pageSize, setPageSize] = useState<number>(10)
+  const [total, setTotal] = useState<number>(0)
   const handleChange = (pageNum: any) => {
     console.log('点击调用后当前页码', pageNum)
     setCurrent(pageNum)
   }
+  const reloadInitPage = () => {
+    setCurrent(1)
+    initPage()
+  }
 
+  const initPage = () => {
+    setLoading(true)
+    fetchRewardByUserAddress({
+      userAddress: address,
+      pageNumber: current,
+      pageSize: pageSize
+    }).then(({success, code, message, data}: any) => {
+      const {content, totalElements, ...other} = data
+      setLoading(false)
+      setData(content || [])
+      setTotal(totalElements)
+    }).catch((error: any) => {
+      setLoading(false)
+      setData([])
+      setTotal(0)
+      console.log(error)
+    })
+  }
   useEffect(() => {
+    initPage()
+    // scroll
     const element: any = scrollRef.current
     element.addEventListener('scroll', handleScroll)
     return () => {
@@ -68,14 +75,14 @@ const EpochHistoryPanel = (props: any) => {
         {
           loading ? <Loading className='cm-loading' size="24px" vertical>
             Loading...
-          </Loading> : 
+          </Loading> : total > 0 ?
           data.map((item: any) => {
-            return <div className='list-table'  key={`ep-${item.id}`}>
+            return <div className='list-table'  key={`ep-${item.epoch}`}>
               <div className='list-tr thead'>
                 <div className='width-left'>
                   <div className='width-td1'>
-                    <span className='title'>{item.title}</span>
-                    <span className='table-ffbf6e-18 tag-sort'># {item.orderBy}</span>
+                    <span className='title'>Epoch-{props.epoch}</span>
+                    <span className='table-ffbf6e-18 tag-sort'># {props.epoch}</span>
                   </div>
                 </div>
               </div>
@@ -87,29 +94,34 @@ const EpochHistoryPanel = (props: any) => {
                   </div>
                   <div className='line'></div> */}
                   <div className='width-td4 center'>
-                    <div className='info'>100,000</div>
+                    <div className='info'>{web3SDK.fromWei(item.lp)}</div>
                     <div className='label'>Total LP</div>
                   </div>
                   <div className='line'></div>
                   <div className='width-td4 right'>
-                    <div className='info'>200</div>
+                    <div className='info'>{web3SDK.fromWei(item.rewardAmount)}</div>
                     <div className='label'>Rewards</div>
                   </div>
                 </div>
               </div>
             </div>
-          })
+          }) : <div className='null-data'>
+            <img src={NullSvg} alt=''  width={300}/>
+            <p>查询无结果</p>
+          </div>
         }
         </div>
         {hideElement ? <></> : <div className='defalut-mask'></div>}
       </div>
-      <Pagination 
-       current={current}
-       pageSize={pageSize}
-       total={total}
-       onChange={handleChange}
-       pageType={'epochHistory'}
-       />
+      { total > 0 ? 
+        <Pagination 
+        current={current}
+        pageSize={pageSize}
+        total={total}
+        onChange={handleChange}
+        pageType={'uclaimedPanel'}
+        /> : <></>
+      }
     </>
   )
 }

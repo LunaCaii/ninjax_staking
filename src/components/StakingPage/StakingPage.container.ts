@@ -14,6 +14,7 @@ const mapDispatch = () => ({
     pendingReward: async () => await web3SDK.StakingPool.pendingReward(),
     stakedAmount: async () => await web3SDK.StakingPool.stakedAmount(),
     totalReward: async () => await web3SDK.StakingPool.totalReward(),
+    userInfo: async () => await web3SDK.StakingPool.userInfo(),
 })
 
 export default connect(mapState, mapDispatch)(StakingPage)

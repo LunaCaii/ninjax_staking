@@ -11,8 +11,9 @@ const StakingPage = (props: any) => {
   const { address }: any = useAccount()
   const [tokenInfo, setTokenInfo] = useState<any>({})
   const [pendingReward, setPendingReward] = useState(0)
-  const [myStake, setMyStake] = useState(0)
-  const [totalReward, setTotalReward] = useState(0)
+  // const [myStake, setMyStake] = useState(0)
+  const [userInfo, setUserInfo] = useState({ amount:'0' })
+  // const [totalReward, setTotalReward] = useState(0)
   const initPage = useCallback(async () => {
     // Query Token name && Token Details
     const tokenResult: any = await props.tokenInfo(await props.stakingToken())
@@ -23,13 +24,15 @@ const StakingPage = (props: any) => {
     setPendingReward(props.fromWei(pendingRewardVal))
     console.log('----2', pendingRewardVal)
     // My Stake
-    const myStakeVal = await props.stakedAmount()
-    setMyStake(props.fromWei(myStakeVal))
-    console.log('----3', myStakeVal)
+    // const myStakeVal = await props.stakedAmount()
+    // setMyStake(props.fromWei(myStakeVal))
+    // console.log('----3', myStakeVal)
     // Liquidity
-    const totalRewardVal = await props.totalReward()
-    setTotalReward(props.fromWei(totalRewardVal))
-    console.log('----4', totalRewardVal)
+    // const totalRewardVal = await props.totalReward()
+    // setTotalReward(props.fromWei(totalRewardVal))
+    // console.log('----4', totalRewardVal)
+
+    setUserInfo(await props.userInfo())
   }, [])
 
   useEffect(() => {
@@ -51,7 +54,9 @@ const StakingPage = (props: any) => {
               <div className="name">{tokenInfo.symbol}</div>
             </div>
             <div className="label-value">
-              <p className="value">{pendingReward} {tokenInfo.symbol}</p>
+              <p className="value">
+                {pendingReward} {tokenInfo.symbol}
+              </p>
               <p className="label">Pending Rewards</p>
             </div>
             <div className="harvest-btn">
@@ -61,15 +66,22 @@ const StakingPage = (props: any) => {
           <div className="line-h"></div>
           <div className="com-staking-item-box">
             <div className="label-value">
-              <p className="value">{myStake} {tokenInfo.symbol}</p>
+              <p className="value">
+                { props.fromWei(userInfo.amount)} {tokenInfo.symbol}
+              </p>
               <p className="label">My Stake</p>
             </div>
             <div className="label-value">
-              <p className="value orange-text">{ (myStake / totalReward) * 100}%</p>
+              <p className="value orange-text">
+                {/* {(myStake / totalReward) * 100}% */}
+                ~
+              </p>
               <p className="label">APR</p>
             </div>
             <div className="label-value">
-              <p className="value">$ {totalReward}</p>
+              <p className="value">$ ~
+                {/* {totalReward} */}
+              </p>
               <p className="label">Liquidity</p>
             </div>
           </div>

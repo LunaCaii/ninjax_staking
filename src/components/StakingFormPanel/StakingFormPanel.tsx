@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useAccount, useBalance } from 'wagmi'
 import { Toast } from 'react-vant'
 import { web3SDK } from '../../contract'
+import Bignumber from 'bignumber.js'
 
 const StakingFormPanel = (props: any) => {
   const { t }: any = useTranslation()
@@ -77,32 +78,32 @@ const StakingFormPanel = (props: any) => {
       }
     }
   }
+
+  const handleApprove = async () => {
+    try {
+      await web3SDK.StakingPool.approveStakingPool()
+      await queryAllowanceStakingPool()
+      Toast('授权成功')
+    } catch (e: any) {
+      console.log('---查询授权方法error', e)
+      Toast('授权失败')
+    }
+  }
+
+
   const handleStake = async () => {
-    console.log('当前余额，', userAmount)
-    if (allowAmount < userAmount) {
-      // 先授权~
-      try {
-        await web3SDK.StakingPool.approveStakingPool()
-        queryAllowanceStakingPool()
-        Toast('授权成功')
-      } catch(e: any){
-        console.log('---查询授权方法error',e)
-        Toast('授权失败')
-      }
-    } else {
-      // 执行stake
-      if (!stakeInputVal) {
-        return Toast(`请先输入`)
-      } else if (stakeInputVal > userAmount) {
-        return Toast(`您的输入超出${userAmount}`)
-      }
-      try {
-        const result: any = await web3SDK.StakingPool.stake(stakeInputVal)
-        Toast('质押成功')
-      } catch(e: any){
-        console.log('---查询质押方法error',e)
-        Toast('质押失败')
-      }
+    // 执行stake
+    if (!stakeInputVal) {
+      return Toast(`请先输入`)
+    } else if (stakeInputVal > userAmount) {
+      return Toast(`您的输入超出${userAmount}`)
+    }
+    try {
+      const result: any = await web3SDK.StakingPool.stake(stakeInputVal)
+      Toast('质押成功')
+    } catch (e: any) {
+      console.log('---查询质押方法error', e)
+      Toast('质押失败')
     }
   }
 
@@ -151,8 +152,19 @@ const StakingFormPanel = (props: any) => {
               <div className="btn-to-max" onClick={handleMax}>Max</div>
             </div>
           </div>
+
           <div className="btn-all">
-            <button className="table-btn-ffbf6e size-all" onClick={handleStake}>{allowAmount < userAmount ? 'Approve' : 'Stake'}</button>
+            {
+              Bignumber(allowAmount).lt(stakeInputVal) ? (
+              <button className="table-btn-ffbf6e size-all" onClick={handleApprove}>
+                Approve
+              </button>
+              ) : (
+              <button className="table-btn-ffbf6e size-all" onClick={handleStake}>
+                Stake
+              </button>
+              )
+            }
           </div>
           <p className="text-error">* You can unstake after 7 days.</p>
         </>

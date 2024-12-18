@@ -78,6 +78,11 @@ const pendingClaim = async (): Promise<string> => {
     return await (await contractObj()).methods.pendingClaim(from).call()
 }
 
+const userInfo = async (): Promise<string> => {
+    const [from] = await web3SDK.getAccount()
+    return await (await contractObj()).methods.userInfo(from).call()
+}
+
 /**
  * 质押
  * @param amount 
@@ -131,6 +136,7 @@ const claimIndex = async (index: string | number) => {
 export type StakingPoolTypes = {
     stakingToken: () => Promise<string>
     pendingReward: () => Promise<string>
+    userInfo: () => Promise<any>
     stake: (_amount: string) => Promise<any>
     unstake: (_amount: string) => Promise<any>
     claimIndex: (index: string | number) => Promise<any>
@@ -153,7 +159,8 @@ const exportObj = {
     allowanceStakingPool,
     approveStakingPool,
     stakedAmount,
-    totalReward
+    totalReward,
+    userInfo
 }
 
 export default exportObj 

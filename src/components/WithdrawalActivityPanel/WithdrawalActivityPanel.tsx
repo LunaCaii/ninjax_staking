@@ -34,13 +34,15 @@ const WithdrawalActivityPanel = (props: any) => {
     try {
       const {code, data, message, success}:any = await fetchStakingList({
         userAddress: address,
-        type: -1,
+        type: 0,
         pageNumber: current,
         pageSize: pageSize
       })
       const {content, totalElements, ...other} = data
       if (success && code === 200) {
         const _blockNumber: any = await web3SDK.getBlockNumber()
+        console.log(_blockNumber,'-----');
+          
         setBlockNumber(web3SDK.fromWei(_blockNumber))
         // const _list = data.content.map((item: any) => {
         //   const _unlockBlock = item.unlockBlock || ''

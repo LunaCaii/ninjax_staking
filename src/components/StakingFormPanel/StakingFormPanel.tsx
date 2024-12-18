@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
 import './styles/StakingFormPanel.scss'
 import { useTranslation } from 'react-i18next'
 import { useAccount, useBalance } from 'wagmi'
@@ -10,6 +10,7 @@ const StakingFormPanel = (props: any) => {
   const { t }: any = useTranslation()
   const { address }: any = useAccount()
   const [loading, setLoading] = useState(false)
+  const [userInfo, setUserInfo] = useState({ amount:'0' })
   const stakingTokenBalance = useBalance({
     address,
     token: props?.initialData?.stakingToken,
@@ -57,8 +58,8 @@ const StakingFormPanel = (props: any) => {
   const handleUnstake = async() => {
     if (!unStakeInputVal) {
       return Toast(`请先输入`)
-    } else if (unStakeInputVal > unStakeMaxAmount) {
-      return Toast(`您的输入超出${unStakeMaxAmount}`)
+    } else if (Number(unStakeInputVal) > Number(props.fromWei(userInfo.amount))) {
+      return Toast(`您的输入超出${props.fromWei(userInfo.amount)}`)
     }
     try {
       setLoading(true)
@@ -117,9 +118,14 @@ const StakingFormPanel = (props: any) => {
     }
   }
 
+  const fetch = useCallback(async () => { 
+    setUserInfo(await props.userInfo())
+  },[])
+
   // 查询
   useEffect(() => {
     queryAllowanceStakingPool()
+    fetch()
   }, [])
   return (
     <div className="com-panel panel-form">
@@ -185,7 +191,7 @@ const StakingFormPanel = (props: any) => {
               <input className="input-ninjax" readOnly placeholder="Available" />
             </div>
             <div className="div-other">
-              <p className="text-balace">{unStakeMaxAmount || '~'}{' '}
+              <p className="text-balace">{props.fromWei(userInfo.amount) || '~'}{' '}
                 {stakingTokenBalance.data?.symbol}</p>
               {/* <p className="text-fee">≈$8888.00</p> */}
             </div>

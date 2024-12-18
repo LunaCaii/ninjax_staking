@@ -21,11 +21,29 @@ const Header = (props: any) => {
       <div className='hd-logo'></div>
       <ul className='hd-menus'>
         <li className={`hd-menu hd-menu-style-css ${window.location.pathname === ('/') ? 'active' : ''}`}
-        onClick={() => navigate('/')}>SWAP</li>
+        onClick={() => 
+          window.open(
+            'https://www.ninjax.io/swap',
+            '_blank',
+            'noreferrer'
+          )
+        }>SWAP</li>
         <li className={`hd-menu hd-menu-style-css ${window.location.pathname.includes('/pools') ? 'active' : ''}`}
-        onClick={() => navigate('/pools')}>POOLS</li>
+        onClick={() => 
+          window.open(
+            'https://www.ninjax.io/pool',
+            '_blank',
+            'noreferrer'
+          )
+        }>POOLS</li>
         <li className={`hd-menu hd-menu-style-css ${window.location.pathname.includes('/liquidity') ? 'active' : ''}`}
-        onClick={() => navigate('/liquidity')}>LIQUIDITY</li>
+        onClick={() => 
+          window.open(
+            'https://www.ninjax.io/liquidity',
+            '_blank',
+            'noreferrer'
+          )
+        }>LIQUIDITY</li>
         <li className={`hd-menu hd-menu-style-css ${window.location.pathname.includes('/earn') ? 'active' : ''}`}
         onClick={() => navigate('/earn')}>EARN</li>
         <li className={`hd-menu hd-menu-style-css ${window.location.pathname.includes('/staking') ? 'active' : ''}`}

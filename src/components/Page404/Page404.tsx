@@ -8,7 +8,7 @@ const Page404 = (props: any) => {
   return (
     <div className='page404'>
       <div className='page404-image'>
-        <img src={img404} alt='' width={285} height={123}/>
+        <img src={img404} alt='' width={360} height={289}/>
       </div>
       <div className='page404-content'>
         <h1>{t('Page does not exist')}</h1>

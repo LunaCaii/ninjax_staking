@@ -6,8 +6,9 @@
     margin: 0 auto;
     border-radius: 20px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+    text-align: center;
     .page404-content {
         display: flex;
         flex-direction: column;
@@ -15,9 +16,8 @@
     }
     .page404-image {
         display: flex;
-        flex-direction: column;
         justify-content: center;
-        margin-right: 40px;
+        margin-bottom: 40px;
     }
     h1 {
         font-size: 56px;

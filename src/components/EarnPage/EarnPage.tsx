@@ -44,15 +44,15 @@ const EarnPage = (props: any) => {
         <ul className='son-group earn'>
           <li className='son-group-li earn'>
             <h2>Total Amount Earned</h2>
-            <p>{loading ? <Loading className='cm-loading inline' size="24px">Loading...</Loading>: <>$ <CountUp isCounting thousandsSeparator={','} end={Number(web3SDK.fromWei(data.totalAmountEarned))}  updateInterval={0.05} duration={0.5}/></>}</p>
+            <div>{loading ? <Loading className='cm-loading inline' size="24px">Loading...</Loading>: <>$ <CountUp isCounting thousandsSeparator={','} end={Number(web3SDK.fromWei(data.totalAmountEarned))}  updateInterval={0.05} duration={0.5}/></>}</div>
           </li>
           {/* <li className='son-group-li earn'>
             <h2>Current Epoch Earnings</h2>
-            <p>{loading ? <Loading className='cm-loading inline' size="24px">Loading...</Loading>: <>$ <CountUp isCounting thousandsSeparator={','} end={1403809350.729} updateInterval={0.05} duration={0.5}/></>}</p>
+            <div>{loading ? <Loading className='cm-loading inline' size="24px">Loading...</Loading>: <>$ <CountUp isCounting thousandsSeparator={','} end={1403809350.729} updateInterval={0.05} duration={0.5}/></>}</div>
           </li> */}
           <li className='son-group-li earn'>
             <h2>My TVL</h2>
-            <p>{loading ? <Loading className='cm-loading inline' size="24px">Loading...</Loading>: <>$ <CountUp isCounting thousandsSeparator={','} end={Number(web3SDK.fromWei(data.tvl))} updateInterval={0.05} duration={0.5}/></>}</p>
+            <div>{loading ? <Loading className='cm-loading inline' size="24px">Loading...</Loading>: <>$ <CountUp isCounting thousandsSeparator={','} end={Number(web3SDK.fromWei(data.tvl))} updateInterval={0.05} duration={0.5}/></>}</div>
           </li>
         </ul>
       </div>

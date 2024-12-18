@@ -88,7 +88,7 @@ export const fetchRewardTotal = <T>(params: any) => {
  * @returns Promise
  */
 export const fetchRewardClaim = <T>(params: any) => {
-  return request.get<T>("/reward/claim", params, {
+  return request.post<T>("/reward/claim", params, {
     headers: {
       "Content-Type": "application/json",
     },

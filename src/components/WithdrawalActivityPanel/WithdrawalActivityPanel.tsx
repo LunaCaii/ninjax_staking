@@ -100,10 +100,10 @@ const WithdrawalActivityPanel = (props: any) => {
                     <p className='value'>{web3SDK.fromWei(item.amount)}</p>
                     <p className='label'>Request Amount</p>
                   </div>
-                  <div className='label-value'>
+                  {/* <div className='label-value'>
                     <p className='value'>{item.type === 1 ? 'Stake' : 'UnStake'}</p>
                     <p className='label'>Transcation Type</p>
-                  </div>
+                  </div> */}
                   <div className='label-value'>
                     <p className='value'><i className='icon-time'></i><CountDown time={30 * 60 * 60 * 1000} format="DD d HH h" /></p>
                     <p className='label'>Claim Time</p>

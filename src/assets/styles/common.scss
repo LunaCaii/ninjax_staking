@@ -83,7 +83,7 @@ input {
         color: var(--color-ffbf6e);
         height: var(--line-height-19);
       }
-      p {
+      >div {
         font-family: var(--font-family-nokora);
         font-size: var(--font-size-16);
         font-weight: var(--font-weight-regular);
@@ -265,8 +265,10 @@ input {
         font-family: var(--font-family-nokora);
         font-size: var(--font-size-20);
         font-weight: var(--font-weight-regular);
-        height: var(--line-height-26);
+        line-height: var(--line-height-26);
         color: var(--color-ffffff);
+        word-wrap: break-word;
+        height: auto;
       }
       .label {
         font-family: var(--font-family-nokora);

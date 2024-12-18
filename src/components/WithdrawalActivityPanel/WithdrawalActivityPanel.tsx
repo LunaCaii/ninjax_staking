@@ -105,7 +105,7 @@ const WithdrawalActivityPanel = (props: any) => {
                     <p className='label'>Transcation Type</p>
                   </div> */}
                   <div className='label-value'>
-                    <p className='value'><i className='icon-time'></i><CountDown time={30 * 60 * 60 * 1000} format="DD d HH h" /></p>
+                    <div className='value'><i className='icon-time'></i><CountDown time={30 * 60 * 60 * 1000} format="DD d HH h" /></div>
                     <p className='label'>Claim Time</p>
                   </div>
                   <div className='btn-claim'>

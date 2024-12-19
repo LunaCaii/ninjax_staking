@@ -86,13 +86,18 @@
   .page-staking {
     .son-panel {
       &.staking {
-        margin: 58.5px auto 20px auto;
-        width: 100%;
+        // margin: 58.5px auto 20px auto;
+        // width: 100%;
+        margin: 30px 8px 20px 8px;
+        width: calc(100% - 16px);
       }
     }
     .body-staking {
       .table-panel {
         margin: 20px auto 60px auto;
+        .table-panel-item {
+          padding: 23px 8px 24px 8px;
+        }
       }
     }
   }

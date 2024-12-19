@@ -6,14 +6,18 @@ import ninjaxLogoSvg from '../../assets/images/ninjax-logo.png'
 import StakingFormPanel from '../StakingFormPanel/StakingFormPanel'
 import WithdrawalActivityPanel from '../WithdrawalActivityPanel/WithdrawalActivityPanel'
 import eventBus from '../../common/utils/EventBus'
+import BigNumber from 'bignumber.js'
+import { toPercent } from '../../core/config'
 
 const StakingPage = (props: any) => {
   const { t }: any = useTranslation()
   const { address }: any = useAccount()
   const [tokenInfo, setTokenInfo] = useState<any>({})
+  const [apr, setApr] = useState(0)
   const [pendingReward, setPendingReward] = useState(0)
+  const [totalStakedAmount, setTotalStakedAmount] = useState(0)
   // const [myStake, setMyStake] = useState(0)
-  const [userInfo, setUserInfo] = useState({ amount:'0' })
+  const [userInfo, setUserInfo] = useState({ amount: '0' })
   // const [totalReward, setTotalReward] = useState(0)
 
   const handleHarvest = () => {
@@ -24,15 +28,20 @@ const StakingPage = (props: any) => {
     // Query Token name && Token Details
     const tokenResult: any = await props.tokenInfo(await props.stakingToken())
     setTokenInfo(tokenResult)
-    console.log('------', tokenResult)
     // Pending Rewards
     const pendingRewardVal = await props.pendingReward()
     setPendingReward(props.fromWei(pendingRewardVal))
-    console.log('----2', pendingRewardVal)
-    // My Stake
-    // const myStakeVal = await props.stakedAmount()
-    // setMyStake(props.fromWei(myStakeVal))
-    // console.log('----3', myStakeVal)
+
+    const _totalStakedAmount = props.fromWei(await props.stakedAmount())
+    setTotalStakedAmount(_totalStakedAmount)
+
+    const rewardPerBlock = props.fromWei(await props.rewardPerBlock())
+
+    const blockAmountForYear = (365 * 24 * 60 * 60) / 5
+    const apr = BigNumber(blockAmountForYear)
+      .multipliedBy(rewardPerBlock)
+      .div(_totalStakedAmount)
+    setApr(apr.toNumber())
     // Liquidity
     // const totalRewardVal = await props.totalReward()
     // setTotalReward(props.fromWei(totalRewardVal))
@@ -46,7 +55,7 @@ const StakingPage = (props: any) => {
     eventBus.on('reload-init', initPage)
     return () => {
       eventBus.off('reload-init', initPage)
-    };
+    }
   }, [])
   return (
     <div className="page-staking">
@@ -77,31 +86,30 @@ const StakingPage = (props: any) => {
           <div className="com-staking-item-box">
             <div className="label-value">
               <p className="value">
-                { props.fromWei(userInfo.amount)} {tokenInfo.symbol}
+                {props.fromWei(userInfo.amount)} {tokenInfo.symbol}
               </p>
               <p className="label">My Stake</p>
             </div>
             <div className="label-value">
               <p className="value orange-text">
-                {/* {(myStake / totalReward) * 100}% */}
-                ~
+                {toPercent(apr)}
               </p>
               <p className="label">APR</p>
             </div>
-            {/* <div className="label-value">
-              <p className="value">$ {totalReward}</p>
-              <p className="label">Liquidity</p>
-            </div> */}
+            <div className="label-value">
+              <p className="value">{totalStakedAmount}</p>
+              <p className="label">Total Staked</p>
+            </div>
           </div>
         </div>
       </div>
       <div className="body-staking">
         <div className="table-panel">
           <div className="table-panel-item staking-from">
-            <StakingFormPanel {...props}/>
+            <StakingFormPanel {...props} />
           </div>
           <div className="table-panel-item staking-activity">
-            <WithdrawalActivityPanel/>
+            <WithdrawalActivityPanel />
           </div>
         </div>
       </div>

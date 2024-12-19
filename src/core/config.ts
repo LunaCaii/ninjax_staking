@@ -29,6 +29,18 @@ export const getLanguage = (): Locale => {
   return str === 'cn' ? 'zh-CN' : 'en-US'
 }
 
+export const toPercent = (point: number | string, decimal: number = 4) => {
+  if (isNaN(Number(point))) return '~'
+  point = Number(Number(point) * 100).toString()
+  let index = point.indexOf('.')
+  if (index !== -1) {
+    point = point.substring(0, decimal + index + 1)
+  } else {
+    point = point.substring(0)
+  }
+  return `${parseFloat(point).toFixed(decimal)} %`
+}
+
 // export const config = createConfig({
 //   chains: [tabiChain],
 //   transports: {

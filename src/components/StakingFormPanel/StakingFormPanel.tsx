@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useAccount, useBalance } from 'wagmi'
 import { Toast, Overlay, Loading } from 'react-vant'
 import { web3SDK } from '../../contract'
-import Bignumber from 'bignumber.js'
+import BigNumber from 'bignumber.js'
 import eventBus from '../../common/utils/EventBus'
 
 const StakingFormPanel = (props: any) => {
@@ -72,7 +72,7 @@ const StakingFormPanel = (props: any) => {
   const handleUnstake = async() => {
     if (!unStakeInputVal) {
       return Toast(`请先输入`)
-    } else if (Number(unStakeInputVal) > Number(props.fromWei(userInfo.amount))) {
+    } else if (new BigNumber(props.fromWei(userInfo.amount)).lt(new BigNumber(unStakeInputVal))) {
       return Toast(`您的输入超出${props.fromWei(userInfo.amount)}`)
     }
     try {
@@ -108,7 +108,7 @@ const StakingFormPanel = (props: any) => {
     // 执行stake
     if (!stakeInputVal) {
       return Toast(`请先输入`)
-    } else if (stakeInputVal > userAmount) {
+    } else if (new BigNumber(userAmount).lt(new BigNumber(stakeInputVal))) {
       return Toast(`您的输入超出${userAmount}`)
     }
     try {
@@ -180,7 +180,7 @@ const StakingFormPanel = (props: any) => {
 
           <div className="btn-all">
             {
-              Bignumber(allowAmount).lt(stakeInputVal) ? (
+              new BigNumber(allowAmount).lt(new BigNumber(stakeInputVal)) ? (
               <button className="table-btn-ffbf6e size-all" onClick={handleApprove}>
                 Approve
               </button>

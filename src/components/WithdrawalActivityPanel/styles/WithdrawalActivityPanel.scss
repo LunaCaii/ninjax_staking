@@ -1,40 +1,40 @@
 .com-panel {
-  &.withdraw-activity {
-    .box-title {
+  .box-title {
+    display: flex;
+    box-sizing: border-box;
+    justify-content: space-between;
+    align-items: center;
+    .box-reload {
       display: flex;
       box-sizing: border-box;
-      justify-content: space-between;
       align-items: center;
-      .box-reload {
-        display: flex;
-        box-sizing: border-box;
-        align-items: center;
-        color: var(--color-ffffff);
-        cursor: pointer;
-      }
-      .box-switch {
-        display: flex;
-        box-sizing: border-box;
-        align-items: center;
-        background: var(--color-232027);
-        padding: 3px 3px;
+      color: var(--color-ffffff);
+      cursor: pointer;
+    }
+    .box-switch {
+      display: flex;
+      box-sizing: border-box;
+      align-items: center;
+      background: var(--color-232027);
+      padding: 3px 3px;
+      border-radius: var(--border-radius-30);
+      .switch-item {
+        padding: 3px 16px;
+        font-family: var(--font-family-nokora);
+        font-size: var(--font-size-14);
+        font-weight: var(--font-weight-bold);
+        line-height: var(--line-height-20);
+        color: var(--color-a4a6a4);
         border-radius: var(--border-radius-30);
-        .switch-item {
-          padding: 3px 16px;
-          font-family: var(--font-family-nokora);
-          font-size: var(--font-size-14);
-          font-weight: var(--font-weight-bold);
-          line-height: var(--line-height-20);
-          color: var(--color-a4a6a4);
-          border-radius: var(--border-radius-30);
-          cursor: pointer;
-          &.active {
-            color: var(--color-fefffd);
-            background: var(--color-868488);
-          }
+        cursor: pointer;
+        &.active {
+          color: var(--color-fefffd);
+          background: var(--color-868488);
         }
       }
     }
+  }
+  &.withdraw-activity {
     .list-container {
       gap: 10px;
       margin-top: 20px;
@@ -61,15 +61,17 @@
   }
 }
 @media screen and (max-width: 1000px) {
-  .com-panel.withdraw-activity {
+  .com-panel {
     .box-title {
       flex-direction: column;
       gap: 20px;
     }
-    .btn-claim {
-      width: 100%;
-      >button {
+    &.withdraw-activity {
+      .btn-claim {
         width: 100%;
+        >button {
+          width: 100%;
+        }
       }
     }
   }

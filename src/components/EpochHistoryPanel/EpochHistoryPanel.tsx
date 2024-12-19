@@ -80,8 +80,8 @@ const EpochHistoryPanel = (props: any) => {
               <div className='list-tr thead'>
                 <div className='width-left'>
                   <div className='width-td1'>
-                    <span className='title'>Epoch-{props.epoch}</span>
-                    <span className='table-ffbf6e-18 tag-sort'># {props.epoch}</span>
+                    <span className='title'>Epoch-{item.epoch}</span>
+                    <span className='table-ffbf6e-18 tag-sort'># {item.epoch}</span>
                   </div>
                 </div>
               </div>

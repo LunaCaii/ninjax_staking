@@ -88,7 +88,13 @@ const UnclaimedPanel = (props: any) => {
   return (
     <>
       <div className='com-panel unclaimed-panel'>
-        <h2>You have unclaimed Rewards</h2>
+        <div className='box-title'>
+          <h2>You have unclaimed Rewards</h2>
+          {
+          total > 0 ?
+          <button className={`table-btn-ffbf6e btn-claim`}>Claim All</button> : <></>
+          }
+        </div>
         <div ref={scrollRef} className='list-container'>
           {
             loading ? <Loading className='cm-loading' size="24px" vertical>

@@ -191,7 +191,7 @@ const StakingFormPanel = (props: any) => {
               )
             }
           </div>
-          <p className="text-error">* You can unstake after 7 days.</p>
+          {/* <p className="text-error">* You can unstake after 7 days.</p> */}
         </>
       ) : (
         <>
@@ -217,7 +217,7 @@ const StakingFormPanel = (props: any) => {
           <div className="btn-all">
             <button className="table-btn-ffbf6e size-all" onClick={handleUnstake}>Unstake</button>
           </div>
-          <p className="text-error">* You can unstake after 7 days.</p>
+          {/* <p className="text-error">* You can claim after 7 days.</p> */}
         </>
       )}
     <Overlay visible={loading}  style={{

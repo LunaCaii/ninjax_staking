@@ -1,7 +1,7 @@
 import { memo, useRef, useEffect, useState, useCallback } from 'react'
 import './styles/WithdrawalActivityPanel.scss'
 import { useTranslation } from 'react-i18next'
-import { Loading, CountDown } from 'react-vant'
+import { Loading, CountDown, Toast } from 'react-vant'
 import { useAccount } from 'wagmi'
 import { fetchStakingList } from '../../common/ajax/index'
 import { Pagination } from '../Pagination'
@@ -31,6 +31,19 @@ const WithdrawalActivityPanel = (props: any) => {
       setHideElement(scrollHeight - scrollTop - clientHeight <= 1); // 留一个像素的边距
     }
   };
+  const handleClaim = async (item: any) => {
+    if (Number(item.unlockBlock) - Number(blockNumber) > 0) {
+      return false
+    } else {
+      try {
+        const result: any = await props.claimIndex(item.id)
+        Toast('解锁成功')
+      } catch(e) {
+        Toast('解锁失败')
+        console.log('----handleClaim异常', e)
+      }
+    }
+  }
   const queryList = async () => {
     setLoading(true)
     try {
@@ -42,10 +55,6 @@ const WithdrawalActivityPanel = (props: any) => {
       })
       const {content, totalElements, ...other} = data
       if (success && code === 200) {
-        // const _list = data.content.map((item: any) => {
-        //   const _unlockBlock = item.unlockBlock || ''
-        //   item.claimTime = 0
-        // })
         setData(content || [])
         setTotal(totalElements)
       } else {
@@ -142,7 +151,7 @@ const WithdrawalActivityPanel = (props: any) => {
                     <p className='label'>Claim Time</p>
                   </div>
                   <div className='btn-claim'>
-                    <button className={`table-btn-ffdd85 click `}>Claim</button>
+                    <button className={`table-btn-ffdd85 click ${Number(item.unlockBlock) - Number(blockNumber) > 0 ? 'disabled' : ''}`} onClick={() => handleClaim(item)}>Claim</button>
                   </div>
                 </div>
               </div>

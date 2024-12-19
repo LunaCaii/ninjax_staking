@@ -290,6 +290,8 @@ input {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  flex-wrap: wrap;
+  gap: 10px;
   &.table-line {
     width: 100% !important;
   }

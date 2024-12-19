@@ -15,6 +15,11 @@ const StakingPage = (props: any) => {
   // const [myStake, setMyStake] = useState(0)
   const [userInfo, setUserInfo] = useState({ amount:'0' })
   // const [totalReward, setTotalReward] = useState(0)
+
+  const handleHarvest = () => {
+
+  }
+
   const initPage = useCallback(async () => {
     // Query Token name && Token Details
     const tokenResult: any = await props.tokenInfo(await props.stakingToken())
@@ -65,7 +70,7 @@ const StakingPage = (props: any) => {
               <p className="label">Pending Rewards</p>
             </div>
             <div className="harvest-btn">
-              <button className="harvest table-btn-ffbf6e">Harvest</button>
+              <button className={`harvest table-btn-ffbf6e ${pendingReward > 0 ? '' : 'disabled'}`} onClick={handleHarvest}>Harvest</button>
             </div>
           </div>
           <div className="line-h"></div>
@@ -83,12 +88,10 @@ const StakingPage = (props: any) => {
               </p>
               <p className="label">APR</p>
             </div>
-            <div className="label-value">
-              <p className="value">$ ~
-                {/* {totalReward} */}
-              </p>
+            {/* <div className="label-value">
+              <p className="value">$ {totalReward}</p>
               <p className="label">Liquidity</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

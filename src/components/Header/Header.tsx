@@ -36,14 +36,14 @@ const Header = (props: any) => {
             'noreferrer'
           )
         }>POOLS</li>
-        <li className={`hd-menu hd-menu-style-css ${window.location.pathname.includes('/liquidity') ? 'active' : ''}`}
+        {/* <li className={`hd-menu hd-menu-style-css ${window.location.pathname.includes('/liquidity') ? 'active' : ''}`}
         onClick={() => 
           window.open(
             'https://www.ninjax.io/liquidity',
             '_blank',
             'noreferrer'
           )
-        }>LIQUIDITY</li>
+        }>LIQUIDITY</li> */}
         <li className={`hd-menu hd-menu-style-css ${window.location.pathname.includes('/earn') ? 'active' : ''}`}
         onClick={() => navigate('/earn')}>EARN</li>
         <li className={`hd-menu hd-menu-style-css ${window.location.pathname.includes('/staking') ? 'active' : ''}`}

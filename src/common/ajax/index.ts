@@ -94,3 +94,11 @@ export const fetchRewardClaim = <T>(params: any) => {
     },
   });
 };
+
+export const fetchRewardCheckClaimable = <T>(params: any) => {
+  return request.get<T>("/reward/checkClaimable", params, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};

@@ -21,7 +21,7 @@ const EarnPage = (props: any) => {
   const initPage = () => {
     setLoading(true)
     fetchRewardTotal({
-      userAddress: '0xc38c63baf07505160d1292b1b9fa4955333e609b'
+      userAddress: address
     }).then(({success, code, message, data}: any) => {
       setLoading(false)
       setData(data)

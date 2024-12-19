@@ -7,9 +7,9 @@ import {
   useSignMessage
 } from 'wagmi'
 import { UnclaimedCollapse } from '../UnclaimedCollapse'
-import { Loading } from 'react-vant'
+import { Loading, Overlay } from 'react-vant'
 import { Pagination } from '../Pagination'
-import { fetchRewardByUserAddress, fetchRewardClaim } from '../../common/ajax/index'
+import { fetchRewardByUserAddress, fetchRewardCheckClaimable, fetchRewardClaim } from '../../common/ajax/index'
 import NullSvg from '../../assets/images/icon-null.svg'
 
 const UnclaimedPanel = (props: any) => {
@@ -19,8 +19,10 @@ const UnclaimedPanel = (props: any) => {
   const scrollRef = useRef(null);
   const [hideElement, setHideElement] = useState(false);
   const [loading, setLoading] = useState(false)
+  const [fullLoading, setFullLoading] = useState(false)
   let { address, status, isConnected, connector } = useAccount()
   const [data, setData] = useState<any>([])
+  const [claimIsAllowClick, setClaimIsAllowClick] = useState(false)
   const handleScroll = () => {
     if (scrollRef.current) {
       const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
@@ -38,42 +40,59 @@ const UnclaimedPanel = (props: any) => {
   }
 
   const handleClaimClick = async ({handleClaim, ...other}: any) => {
-    console.log('当前claim点击事件', other)
-    // 签名
-    const key = String(Math.random())
-    const sign: any = await signMessageAsync({ account: address, message: `${key}`, connector: connector})
-    // 调用接口
-    fetchRewardClaim({
-      userAddress: address,
-      key: key,
-      sign: sign
-    }).then((res: any) => {
-      console.log(res)
-      reloadInitPage()
-    }).catch((error: any) => {})
+    try {
+      if (handleClaim === undefined) {
+        if (!claimIsAllowClick) {
+          return
+        }
+      }
+      setFullLoading(true)
+      console.log('当前claim点击事件', other)
+      // 签名
+      const key = String(Math.random())
+      const sign: any = await signMessageAsync({ account: address, message: `${key}`, connector: connector})
+      // 调用接口
+      await fetchRewardClaim({
+        userAddress: address,
+        key: key,
+        sign: sign
+      }).then((res: any) => {
+        console.log(res)
+        reloadInitPage()
+      }).catch((error: any) => {})
+    } catch(e) {} finally {
+      setFullLoading(false)
+    }
   }
 
   const reloadInitPage = () => {
     setCurrent(1)
     initPage()
   }
-  const initPage = () => {
+  const initPage = async () => {
     setLoading(true)
-    fetchRewardByUserAddress({
-      userAddress: address,
-      pageNumber: current,
-      pageSize: pageSize
-    }).then(({success, code, message, data}: any) => {
-      const {content, totalElements, ...other} = data
+    try {
+      await fetchRewardByUserAddress({
+        userAddress: address,
+        pageNumber: current,
+        pageSize: pageSize
+      }).then(({success, code, message, data}: any) => {
+        const {content, totalElements, ...other} = data
+        setData(content || [])
+        setTotal(totalElements)
+      }).catch((error: any) => {
+        setData([])
+        setTotal(0)
+        console.log(error)
+      })
+      await fetchRewardCheckClaimable({
+        userAddress: address
+      }).then((res: any) => {
+        setClaimIsAllowClick(res.data)
+      })
+    } catch(e) {} finally {
       setLoading(false)
-      setData(content || [])
-      setTotal(totalElements)
-    }).catch((error: any) => {
-      setLoading(false)
-      setData([])
-      setTotal(0)
-      console.log(error)
-    })
+    }
   }
   useEffect(() => {
     initPage()
@@ -92,7 +111,7 @@ const UnclaimedPanel = (props: any) => {
           <h2>You have unclaimed Rewards</h2>
           {
           total > 0 ?
-          <button className={`table-btn-ffbf6e btn-claim`}>Claim All</button> : <></>
+            <button className={`table-btn-ffbf6e btn-claim ${claimIsAllowClick ? '' : 'disabled'}`} onClick={handleClaimClick}>Claim All</button> : <></>
           }
         </div>
         <div ref={scrollRef} className='list-container'>
@@ -123,6 +142,14 @@ const UnclaimedPanel = (props: any) => {
         pageType={'uclaimedPanel'}
         /> : <></>
       }
+      <Overlay visible={fullLoading}  style={{
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Loading className='cm-loading inline' size="24px">Loading...</Loading>
+      </Overlay>
     </>
   )
 }

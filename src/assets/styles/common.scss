@@ -129,14 +129,13 @@ input {
         display: flex;
         box-sizing: border-box;
         align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
         &.styles2 {
           width: 60%;
         }
         &.styles2-son {
           width: 50%;
-        }
-        .tag-sort {
-          margin-left: 18px;
         }
         .title {
           font-family: var(--font-family-nokora);
@@ -156,6 +155,7 @@ input {
         width: 20%;
         &.styles2-son {
           width: 33%;
+          word-break: break-all;
         }
       }
       .width-all {
@@ -322,7 +322,7 @@ input {
       font-family: var(--font-family-nokora);
       font-size: var(--font-size-18);
       font-weight: var(--font-weight-bold);
-      height: var(--line-height-24);
+      line-height: var(--line-height-24);
       color: var(--color-ffffff);
       &.orange-text {
         color: var(--color-ffbf6e);
@@ -413,6 +413,9 @@ svg[data-icon="replay"] {
       .list-tr {
         flex-direction: column;
         gap: 10px;
+        &.thead {
+          padding: 7px 8px 7px 8px;
+        }
         .width-td1 {
           width: 70%;
         }

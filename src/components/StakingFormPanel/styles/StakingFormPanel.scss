@@ -66,6 +66,9 @@
       }
       .div-other {
         text-align: right;
+        flex-shrink: 0;
+        width: 50%;
+        word-wrap: break-word;
         .text-balace{
           font-family: var(--font-family-nokora);
           font-size: var(--font-size-24);

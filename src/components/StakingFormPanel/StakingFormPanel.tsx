@@ -42,7 +42,7 @@ const StakingFormPanel = (props: any) => {
   }
 
   const _initStakeOrUnstake = async(type: string) => {
-    if (type === 'staking') {
+    if (type === 'stake') {
       // query stake max amount (userAmount)
       if (address) {
         try {
@@ -78,7 +78,7 @@ const StakingFormPanel = (props: any) => {
     try {
       setLoading(true)
       await web3SDK.StakingPool.unstake(unStakeInputVal)
-      await _initStakeOrUnstake('unStake')
+      await _initStakeOrUnstake('unstake')
       Toast('解除质押成功')
     } catch(e: any){
       console.log('---查询解除质押方法error',e)

@@ -85,6 +85,10 @@ const UnclaimedCollapse = (props: any) => {
         {/* <div className='box-right'>
           <button className={`table-btn-ffbf6e btn-claim ${props.claimed.toString() === 'true' ? 'disabled' : ''}`} onClick={handleClaim}>Claim</button>
         </div> */}
+        <div className='pos-absolute'>
+          <span className='table-ffffff-16'>Claim Status: </span>
+          <span className='table-ffffff-16 color-ffbf6e'>{props.claimed ? 'Claimed' : 'To Claim'}</span>
+        </div>
       </div>
     </div>
   )

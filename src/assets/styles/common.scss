@@ -231,8 +231,19 @@ input {
       display: flex;
       box-sizing: border-box;
       align-items: center;
-      padding: 14px 43px 16px 31px;
+      padding: 14px 43px 36px 31px;
       width: 100%;
+      position: relative;
+      .pos-absolute {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: content-box;
+        padding: 10px 10px 10px 31px;
+        height: auto;
+        text-align: left;
+      }
     }
     .list-box {
       display: flex;

@@ -85,7 +85,7 @@ const StakingFormPanel = (props: any) => {
       console.log('---Query the method to release the pledge error',e)
       Toast('Unstaking failed')
     } finally {
-      sendMessage()
+      sendMessage('unstake')
       setLoading(false)
     }
   }
@@ -121,13 +121,13 @@ const StakingFormPanel = (props: any) => {
       console.log('---Query pledge method error', e)
       Toast('Pledge Failure')
     } finally {
-      sendMessage()
+      sendMessage('stake')
       setLoading(false)
     }
   }
 
-  const sendMessage = () => {
-    eventBus.emit('reload-init')
+  const sendMessage = (type: any) => {
+    eventBus.emit('reload-init', type)
   }
 
   const fetch = useCallback(async () => { 

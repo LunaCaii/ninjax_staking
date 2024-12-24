@@ -30,6 +30,8 @@ const WithdrawalActivityPanel = (props: any) => {
 
   const changeTab = (type: string) => {
     setTabType(type)
+    setCurrent(1)
+    // pending -- 1; claim -- 0;
     queryList(tabTypeKey[type])
   }
   const handleScroll = () => {
@@ -90,16 +92,36 @@ const WithdrawalActivityPanel = (props: any) => {
     // console.log('Click to call the current page number', pageNum)
     setCurrent(pageNum)
   }
-  const reloadInit = () => {
+  const reloadInit = (type: any = '') => {
+    if (!type) {
+      return
+    }
     setCurrent(1)
-    initPage()
+    if (type && type === 'reload') {
+      // pending -- 1; claim -- 0;
+      queryList(tabTypeKey[tabType])
+    } else {
+      if (['stake', 'unstake'].includes(type)) {
+        // set but not query
+        setTabType(type === 'unstake' ? 'claim' : 'pending')
+        initPage(type)
+      }
+    }
   }
-  const initPage = async() => {
+
+  const initPage = async(type: any = '') => {
     // Query Token name && Token Details
     const tokenResult: any = await web3SDK.Token.tokenInfo(await web3SDK.StakingPool.stakingToken())
     setTokenInfo(tokenResult)
-    // query staking list
-    queryList(1)
+    if (type === 'unstake') {
+      // query claim list
+      queryList(0)
+    } else if (type === '' || type === 'stake') {
+      // query pledge list
+      queryList(1)
+    } else if (type === 'reload') {
+      queryList(tabType === 'claim' ? 0 : 1)
+    }
     setBlockNumber(Number(await web3SDK.getBlockNumber()))
   }
   useEffect(() => {
@@ -122,7 +144,7 @@ const WithdrawalActivityPanel = (props: any) => {
             <div className={`switch-item ${tabType === 'pending' ? 'active' : ''}`} onClick={() => changeTab('pending')}>Pledge Record</div>
             <div className={`switch-item ${tabType === 'claim' ? 'active' : ''}`} onClick={() => changeTab('claim')}>Claim</div>
           </div>
-          <div className='box-reload' onClick={reloadInit}>
+          <div className='box-reload' onClick={() => reloadInit('reload')}>
             <Replay fontSize={26} />Reload
           </div>
         </div>

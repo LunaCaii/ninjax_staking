@@ -127,7 +127,7 @@ const UnclaimedPanel = (props: any) => {
               }} key={`cc-${item.epoch}`} />
             }) : <div className='null-data'>
               <img src={NullSvg} alt=''  width={300}/>
-              <p>查询无结果</p>
+              <p>No Data</p>
             </div>
           }
         </div>

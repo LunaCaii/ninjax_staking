@@ -6,6 +6,7 @@ import { Toast, Overlay, Loading } from 'react-vant'
 import { web3SDK } from '../../contract'
 import BigNumber from 'bignumber.js'
 import eventBus from '../../common/utils/EventBus'
+import { toDisplay } from '../../core/config'
 
 const StakingFormPanel = (props: any) => {
   const { t }: any = useTranslation()
@@ -161,7 +162,7 @@ const StakingFormPanel = (props: any) => {
             <div className="div-other">
               <p className="text-balace">
                 {!!props?.initialData?.stakingToken
-                  ? props.fromWei(stakingTokenBalance.data?.value)
+                  ? toDisplay(props.fromWei(stakingTokenBalance.data?.value))
                   : '~'}{' '}
                 {stakingTokenBalance.data?.symbol}
               </p>

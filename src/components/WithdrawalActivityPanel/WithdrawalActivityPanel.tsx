@@ -10,6 +10,7 @@ import ninjaxLogoSvg from '../../assets/images/ninjax-logo.png'
 import { web3SDK } from '../../contract/index'
 import eventBus from '../../common/utils/EventBus'
 import { Replay } from '@react-vant/icons'
+import { toDisplay } from '../../core/config'
 
 const WithdrawalActivityPanel = (props: any) => {
   const { t }:any = useTranslation()
@@ -18,12 +19,19 @@ const WithdrawalActivityPanel = (props: any) => {
   const [loading, setLoading] = useState(false)
   let { address, status, isConnected, connector } = useAccount()
   const [data, setData] = useState<any>([])
-  // const [tabType, setTabType] = useState('pending')
+  const [tabType, setTabType] = useState('pending')
   const [tokenInfo, setTokenInfo] = useState<any>({})
   const [blockNumber, setBlockNumber] = useState<number>(0)
-  // const changeTab = (type: string) => {
-  //   setTabType(type)
-  // }
+
+  const tabTypeKey:any = {
+    'claim': 0,
+    'pending':1
+  }
+
+  const changeTab = (type: string) => {
+    setTabType(type)
+    queryList(tabTypeKey[type])
+  }
   const handleScroll = () => {
     if (scrollRef.current) {
       const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
@@ -36,20 +44,26 @@ const WithdrawalActivityPanel = (props: any) => {
       return false
     } else {
       try {
-        const result: any = await props.claimIndex(item.id)
+        const result: any = await web3SDK.StakingPool.claimIndex(item.claimIndex)
         Toast('解锁成功')
-      } catch(e) {
+      } catch (e) {
         Toast('解锁失败')
         console.log('----handleClaim异常', e)
+      } finally { 
+        queryList(0)
+        setTabType('claim')
       }
     }
   }
-  const queryList = async () => {
+  const queryList = async (type:number) => {
     setLoading(true)
     try {
+      // 1 质押列表
+      // 0 can claim
+      // -1 所有
       const {code, data, message, success}:any = await fetchStakingList({
         userAddress: address,
-        type: 0,
+        type,
         pageNumber: current,
         pageSize: pageSize
       })
@@ -85,7 +99,7 @@ const WithdrawalActivityPanel = (props: any) => {
     const tokenResult: any = await web3SDK.Token.tokenInfo(await web3SDK.StakingPool.stakingToken())
     setTokenInfo(tokenResult)
     // query staking list
-    queryList()
+    queryList(1)
     setBlockNumber(Number(await web3SDK.getBlockNumber()))
   }
   useEffect(() => {
@@ -104,10 +118,10 @@ const WithdrawalActivityPanel = (props: any) => {
       <div className='com-panel withdraw-activity'>
         <div className='box-title'>
           <h2>Withdrawal Activity</h2>
-          {/* <div className='box-switch'>
-            <div className={`switch-item ${tabType === 'pending' ? 'active' : ''}`} onClick={() => changeTab('pending')}>Pending</div>
-            <div className={`switch-item ${tabType === 'close' ? 'active' : ''}`} onClick={() => changeTab('close')}>Close</div>
-          </div> */}
+          <div className='box-switch'>
+            <div className={`switch-item ${tabType === 'pending' ? 'active' : ''}`} onClick={() => changeTab('pending')}>Pledge Record</div>
+            <div className={`switch-item ${tabType === 'claim' ? 'active' : ''}`} onClick={() => changeTab('claim')}>Claim</div>
+          </div>
           <div className='box-reload' onClick={reloadInit}>
             <Replay fontSize={26} />Reload
           </div>
@@ -120,7 +134,7 @@ const WithdrawalActivityPanel = (props: any) => {
             data.length > 0 ?
             data.map((item: any) => {
               return <div className='list-each-item' key={`ac-${item.id}`}>
-                <div className='com-staking-item-box table-line'>
+                <div className='com-staking-item-box table-line hu'>
                   <div className='logo-name'>
                     <div className='logo'>
                       <img src={ninjaxLogoSvg} alt='' width={36} />
@@ -128,31 +142,49 @@ const WithdrawalActivityPanel = (props: any) => {
                     <div className='name'>{tokenInfo.symbol}</div>
                   </div>
                   <div className='label-value'>
-                    <p className='value'>{web3SDK.fromWei(item.amount)}</p>
+                    <p className='value'>{toDisplay(web3SDK.fromWei(item.amount))}</p>
                     <p className='label'>Request Amount</p>
                   </div>
                   {/* <div className='label-value'>
                     <p className='value'>{item.type === 1 ? 'Stake' : 'UnStake'}</p>
                     <p className='label'>Transcation Type</p>
                   </div> */}
-                  <div className='label-value'>
-                    
-                  <div className="value">
-                    <i className="icon-time"></i>
-                    {Number(item.unlockBlock) - Number(blockNumber) > 0 ? (
-                      <CountDown
-                        time={(Number(item.unlockBlock) - Number(blockNumber)) * 5 * 1000}
-                        format="DD d HH h mm m ss s"
-                      />
-                    ) : (
-                      'Now'
+                  {item.unlockBlock && (
+                      <div className="label-value">
+                        <div className="value">
+                          <i className="icon-time"></i>
+                          {Number(item.unlockBlock) - Number(blockNumber) >
+                          0 ? (
+                            <CountDown
+                              time={
+                                (Number(item.unlockBlock) -
+                                  Number(blockNumber)) *
+                                5 *
+                                1000
+                              }
+                              format="DD d HH h mm m ss s"
+                            />
+                          ) : (
+                            'Now'
+                          )}
+                        </div>
+                        <p className="label">Claim Time</p>
+                      </div>
                     )}
-                  </div>
-                    <p className='label'>Claim Time</p>
-                  </div>
-                  <div className='btn-claim'>
-                    <button className={`table-btn-ffdd85 click ${Number(item.unlockBlock) - Number(blockNumber) > 0 ? 'disabled' : ''}`} onClick={() => handleClaim(item)}>Claim</button>
-                  </div>
+                  {item.unlockBlock && (
+                      <div className="btn-claim">
+                        <button
+                          className={`table-btn-ffdd85 click ${
+                            item.claimed || Number(item.unlockBlock) - Number(blockNumber) > 0
+                              ? 'disabled'
+                              : ''
+                          }`}
+                          onClick={() => handleClaim(item)}
+                      >
+                        {item.claimed ? "Claimed" : "Claim"}
+                        </button>
+                      </div>
+                    )}
                 </div>
               </div>
             }) : <div className='null-data'>

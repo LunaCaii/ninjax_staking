@@ -7,7 +7,7 @@ import StakingFormPanel from '../StakingFormPanel/StakingFormPanel'
 import WithdrawalActivityPanel from '../WithdrawalActivityPanel/WithdrawalActivityPanel'
 import eventBus from '../../common/utils/EventBus'
 import BigNumber from 'bignumber.js'
-import { toPercent } from '../../core/config'
+import { toDisplay, toPercent } from '../../core/config'
 
 const StakingPage = (props: any) => {
   const { t }: any = useTranslation()
@@ -74,12 +74,12 @@ const StakingPage = (props: any) => {
             </div>
             <div className="label-value">
               <p className="value">
-                {pendingReward} {tokenInfo.symbol}
+                {toDisplay(pendingReward)} {tokenInfo.symbol}
               </p>
               <p className="label">Pending Rewards</p>
             </div>
             <div className="harvest-btn">
-              <button className={`harvest table-btn-ffbf6e ${pendingReward > 0 ? '' : 'disabled'}`} onClick={handleHarvest}>Harvest</button>
+              {/* <button className={`harvest table-btn-ffbf6e ${pendingReward > 0 ? '' : 'disabled'}`} onClick={handleHarvest}>Harvest</button> */}
             </div>
           </div>
           <div className="line-h"></div>
@@ -92,7 +92,7 @@ const StakingPage = (props: any) => {
             </div>
             <div className="label-value">
               <p className="value orange-text">
-                {toPercent(apr)}
+                {toPercent(apr, 2)}
               </p>
               <p className="label">APR</p>
             </div>

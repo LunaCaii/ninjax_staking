@@ -12,7 +12,7 @@ const contractObj = async () =>
     )
 
 /**
- * 查询待领取奖励
+ * Check pending rewards
  * @returns 
  */
 const pendingReward = async (): Promise<string> => {
@@ -21,19 +21,19 @@ const pendingReward = async (): Promise<string> => {
 }
 
 /**
- * 查询Total StakedAmount
+ * Query Total StakedAmount
  * @returns 
  */
 const stakedAmount = async (): Promise<string> => await (await contractObj()).methods.stakedAmount().call()
 
 /**
- * 查询每个区块的奖励数量
+ * Query the number of rewards for each block
  * @returns 
  */
 const rewardPerBlock = async (): Promise<string> => await (await contractObj()).methods.rewardPerBlock().call()
 
 /**
- * 查询totalReward
+ * Query totalReward
  * @returns 
  */
 const totalReward = async (): Promise<string> => {
@@ -42,13 +42,13 @@ const totalReward = async (): Promise<string> => {
 }
 
 /**
- * 查询质押的Token
+ * Query the pledged tokens
  * @returns 
  */
 const stakingToken = async (): Promise<string> => await (await contractObj()).methods.stakingToken().call()
 
 /**
- * 查询解锁具体信息
+ * Query unlocking details
  * @returns 
  */
 const userUnstakeInfo = async (index: string | number): Promise<string> => {
@@ -73,7 +73,7 @@ const approveStakingPool = async (): Promise<any> => {
 }
 
 /**
- * 查询已解锁的解质押数量
+ * Query the unlocked unstaking amount
  * @returns 
  */
 const pendingClaim = async (): Promise<string> => {
@@ -87,7 +87,7 @@ const userInfo = async (): Promise<string> => {
 }
 
 /**
- * 质押
+ * Stake
  * @param amount 
  * @returns 
  */
@@ -104,7 +104,7 @@ const stake = async (_amount: string) => {
 }
 
 /**
- * 解除质押
+ * Unstake
  * @param amount 
  * @returns 
  */
@@ -121,7 +121,7 @@ const unstake = async (_amount: string) => {
 }
 
 /**
- * 领取指定解锁
+ * Receive designated unlock
  * @param index 
  * @returns 
  */

@@ -84,7 +84,7 @@ export const toUtc = (time: number, timeZone: number = 0) =>
 
 export const getIsMobile = () =>
   /Mobi|Android|iPhone/i.test(navigator.userAgent)
-// bignumber 科学技术法现实问题处理
+// bignumber Dealing with current issues in science and technology law
 export const bigNumberCalcToStr = (num: BigNumber, decimal = 18) => {
   return num.toFixed(decimal, 1)
 }
@@ -100,7 +100,7 @@ export const toPercent = (point: number | string, decimal: number = 4, isRound:b
   //   point = point.substring(0)
   // }
   // return `${parseFloat(point).toFixed(decimal)} %`
-  // 将数字乘以 100 并保留指定的小数位数
+  // Multiplies a number by 100 with a specified number of decimal places
   const percent = isRound ? new BigNumber(point).multipliedBy(100).toFixed(decimal, 1).toString() : new BigNumber(point).multipliedBy(100).toFixed(decimal + 1, 1).toString().slice(0, -1);
   return percent + '%';
 
@@ -109,29 +109,29 @@ export const toPercent = (point: number | string, decimal: number = 4, isRound:b
   // return `${str} %`;
 }
 export const handleCutZero = (num:string | number) => {
-  //拷贝一份 返回去掉零的新串
+  //Make a copy and return a new string without zeros
   num = num.toString()
   let newstr = num;
-  //循环变量 小数部分长度
+  //Loop variable Fractional length
   // console.log(num.indexOf('.') - 1);
   let leng = num.length - num.indexOf('.') - 1;
-  //判断是否有效数
+  //Determine whether it is a valid number
   if (num.indexOf('.') > -1) {
-    //循环小数部分
+    //Repeating decimal part
     for (let i = leng; i > 0; i--) {
-      //如果newstr末尾有0
+      //If newstr ends with 0
       // @ts-ignore
       if (newstr.lastIndexOf('0') > -1 && newstr.substr(newstr.length - 1, 1) === 0) {
         let k = newstr.lastIndexOf('0');
-        //如果小数点后只有一个0 去掉小数点
+        //If there is only one 0 after the decimal point, remove the decimal point
         if (newstr.charAt(k - 1) === '.') {
           return newstr.substring(0, k - 1);
         } else {
-          //否则 去掉一个0
+          //Otherwise remove a 0
           newstr = newstr.substring(0, k);
         }
       } else {
-        //如果末尾没有0
+        //If there is no 0 at the end
         return newstr;
       }
     }
@@ -172,7 +172,7 @@ export const toLocaleLowerCase = (val: string = '') =>
  }
 
  
- //获取地址栏参数，key:参数名称
+ //Get address bar parameters, key: parameter name
 export const getUrlParams = (key: any) => {
 	let reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
 	let r = window.location.search.substring(1)

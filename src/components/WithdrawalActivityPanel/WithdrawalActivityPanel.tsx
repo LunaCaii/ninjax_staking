@@ -35,7 +35,7 @@ const WithdrawalActivityPanel = (props: any) => {
   const handleScroll = () => {
     if (scrollRef.current) {
       const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
-      // 当滚动到底部时，隐藏元素
+      // Hide the element when scrolling to the bottom
       setHideElement(scrollHeight - scrollTop - clientHeight <= 1); // 留一个像素的边距
     }
   };
@@ -45,10 +45,10 @@ const WithdrawalActivityPanel = (props: any) => {
     } else {
       try {
         const result: any = await web3SDK.StakingPool.claimIndex(item.claimIndex)
-        Toast('解锁成功')
+        Toast('Unlock successfully')
       } catch (e) {
-        Toast('解锁失败')
-        console.log('----handleClaim异常', e)
+        Toast('Unlock failed')
+        console.log('----handleClaim exception', e)
       } finally { 
         queryList(0)
         setTabType('claim')
@@ -58,9 +58,9 @@ const WithdrawalActivityPanel = (props: any) => {
   const queryList = async (type:number) => {
     setLoading(true)
     try {
-      // 1 质押列表
+      // 1 Pledge List
       // 0 can claim
-      // -1 所有
+      // -1 All
       const {code, data, message, success}:any = await fetchStakingList({
         userAddress: address,
         type,
@@ -78,7 +78,7 @@ const WithdrawalActivityPanel = (props: any) => {
     } catch(e) {
       setData([])
       setTotal(0)
-      console.log('---查询获取质押/解质押记录异常', e)
+      console.log('---Query and obtain pledge/unpledge records abnormality', e)
     } finally {
       setLoading(false)
     }
@@ -87,7 +87,7 @@ const WithdrawalActivityPanel = (props: any) => {
   const [pageSize, setPageSize] = useState<number>(10)
   const [total, setTotal] = useState<number>(0)
   const handleChange = (pageNum: any) => {
-    console.log('点击调用后当前页码', pageNum)
+    // console.log('Click to call the current page number', pageNum)
     setCurrent(pageNum)
   }
   const reloadInit = () => {

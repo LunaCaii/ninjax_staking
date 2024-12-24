@@ -16,15 +16,15 @@ const StakingFormPanel = (props: any) => {
   const stakingTokenBalance = useBalance({
     address,
     token: props?.initialData?.stakingToken,
-  }) // 当前META币余额
+  }) // Current META coin balance
   const userAmount = !!props?.initialData?.stakingToken
       ? props.fromWei(stakingTokenBalance.data?.value)
       : ''
 
   const [tabType, setTabType] = useState('stake')
   const [allowAmount, setAllowAmount] = useState('')
-  const [stakeInputVal, setStakeInputVal] = useState('') // 质押输入数量
-  const [unStakeInputVal, setUnStakeInputVal] = useState('') // 解质押输入数量
+  const [stakeInputVal, setStakeInputVal] = useState('') // Stake Input Quantity
+  const [unStakeInputVal, setUnStakeInputVal] = useState('') // Unstaking input quantity
   const handleChangeVal = (event: any) => {
     setStakeInputVal(event.target.value)
   }
@@ -48,19 +48,19 @@ const StakingFormPanel = (props: any) => {
       if (address) {
         try {
           const _allowAmount = await web3SDK.StakingPool.allowanceStakingPool()
-          console.log('---允许质押数量为', props.fromWei(_allowAmount))
+          console.log('---The allowed pledge amount is', props.fromWei(_allowAmount))
           setAllowAmount(props.fromWei(_allowAmount))
         } catch(e) {
-          console.log('---查询允许质押方法error',e)
+          console.log('---Query allowed pledge methods error',e)
         }
       }
     } else {
       // query unstake max amount (pendingClaim)
       try {
         setUserInfo(await props.userInfo())
-        console.log('当前userInfo内容', userInfo)
+        console.log('Current userInfo content', userInfo)
       } catch(e: any){
-        console.log('---查询userInfo当前可unstake数量error',e)
+        console.log('---Query the current unstake quantity of userInfo error',e)
       }
     }
   }
@@ -72,18 +72,18 @@ const StakingFormPanel = (props: any) => {
   }
   const handleUnstake = async() => {
     if (!unStakeInputVal) {
-      return Toast(`请先输入`)
+      return Toast(`Please enter first`)
     } else if (new BigNumber(props.fromWei(userInfo.amount)).lt(new BigNumber(unStakeInputVal))) {
-      return Toast(`您的输入超出${props.fromWei(userInfo.amount)}`)
+      return Toast(`Your input exceeds ${props.fromWei(userInfo.amount)}`)
     }
     try {
       setLoading(true)
       await web3SDK.StakingPool.unstake(unStakeInputVal)
       await _initStakeOrUnstake('unstake')
-      Toast('解除质押成功')
+      Toast('Successfully released the pledge')
     } catch(e: any){
-      console.log('---查询解除质押方法error',e)
-      Toast('解除质押失败')
+      console.log('---Query the method to release the pledge error',e)
+      Toast('Unstaking failed')
     } finally {
       sendMessage()
       setLoading(false)
@@ -95,10 +95,10 @@ const StakingFormPanel = (props: any) => {
       setLoading(true)
       await web3SDK.StakingPool.approveStakingPool()
       await _initStakeOrUnstake('stake')
-      Toast('授权成功')
+      Toast('Authorization successful')
     } catch (e: any) {
-      console.log('---查询授权方法error', e)
-      Toast('授权失败')
+      console.log('---Query authorization method error', e)
+      Toast('Authorization failed')
     } finally {
       // sendMessage()
       setLoading(false)
@@ -106,20 +106,20 @@ const StakingFormPanel = (props: any) => {
   }
 
   const handleStake = async () => {
-    // 执行stake
+    // Execute Stake
     if (!stakeInputVal) {
-      return Toast(`请先输入`)
+      return Toast(`Please enter first`)
     } else if (new BigNumber(userAmount).lt(new BigNumber(stakeInputVal))) {
-      return Toast(`您的输入超出${userAmount}`)
+      return Toast(`Your input exceeds ${userAmount}`)
     }
     try {
       setLoading(true)
       await web3SDK.StakingPool.stake(stakeInputVal)
       await _initStakeOrUnstake('stake')
-      Toast('质押成功')
+      Toast('Pledge Success')
     } catch (e: any) {
-      console.log('---查询质押方法error', e)
-      Toast('质押失败')
+      console.log('---Query pledge method error', e)
+      Toast('Pledge Failure')
     } finally {
       sendMessage()
       setLoading(false)

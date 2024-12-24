@@ -313,6 +313,7 @@ input {
     justify-content: space-between;
     align-items: center;
     gap: 12px;
+    width: 115px;
     .name {
       font-family: var(--font-family-nokora);
       font-size: var(--font-size-20);
@@ -330,6 +331,7 @@ input {
   .label-value {
     width: 30%;
     .value {
+      width: 196px;
       font-family: var(--font-family-nokora);
       font-size: var(--font-size-18);
       font-weight: var(--font-weight-bold);
@@ -370,6 +372,9 @@ input {
       margin-top: 2px;
     }
   }
+  .btn-claim {
+    width: 68px;
+  }
 }
 
 .rv-empty {
@@ -390,7 +395,7 @@ svg[data-icon="replay"] {
 }
 // .footer-box {}
 
-/* 媒体查询 */
+/* Media Inquiries */
 @media screen and (min-width: 1280px) {
   .com-staking-item-box {
     width: 427px;

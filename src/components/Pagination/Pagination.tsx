@@ -10,7 +10,7 @@ const Pagination = (props: any) => {
   const [pageNum, setPageNum] = useState(current)
   const [pageMax, setPageMax] = useState(Math.ceil(total/pageSize))
   const [pageShowNums, setPageShowNums] = useState<any>(pageMax >= 3 ? [1, 2, 3] : pageMax === 2 ? [1, 2] : pageMax === 1 ? [1] : [])
-  console.log('当前最大页码', pageMax)
+  console.log('Current maximum page number', pageMax)
   const goToPage = (newPageNum: number) => {
     setPageNum(newPageNum)
     onChange(newPageNum)
@@ -23,7 +23,7 @@ const Pagination = (props: any) => {
     }
   }
   const goToNextPage = () => {
-    // 调整页码展示区域
+    // Adjust the page number display area
     if (pageNum <= pageMax - 2) {
       const showNums = [pageNum, pageNum + 1, pageNum + 2]
       setPageShowNums(showNums)

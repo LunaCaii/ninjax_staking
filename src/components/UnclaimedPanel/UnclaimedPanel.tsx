@@ -26,7 +26,7 @@ const UnclaimedPanel = (props: any) => {
   const handleScroll = () => {
     if (scrollRef.current) {
       const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
-      // 当滚动到底部时，隐藏元素
+      // Hide the element when scrolling to the bottom
       setHideElement(scrollHeight - scrollTop - clientHeight <= 1); // 留一个像素的边距
     }
   };
@@ -35,7 +35,7 @@ const UnclaimedPanel = (props: any) => {
   const [pageSize, setPageSize] = useState<number>(10)
   const [total, setTotal] = useState<number>(0)
   const handleChange = (pageNum: any) => {
-    console.log('点击调用后当前页码', pageNum)
+    // console.log('Click to call the current page number', pageNum)
     setCurrent(pageNum)
   }
 
@@ -47,7 +47,7 @@ const UnclaimedPanel = (props: any) => {
         }
       }
       setFullLoading(true)
-      console.log('当前claim点击事件', other)
+      console.log('Current claim click event', other)
       // 签名
       const key = String(Math.random())
       const sign: any = await signMessageAsync({ account: address, message: `${key}`, connector: connector})

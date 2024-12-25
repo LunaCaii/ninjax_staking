@@ -30,9 +30,10 @@ const WithdrawalActivityPanel = (props: any) => {
 
   const changeTab = (type: string) => {
     setTabType(type)
-    setCurrent(1)
     // pending -- 1; claim -- 0;
-    queryList(tabTypeKey[type])
+    setCurrent(1)
+    setTotal(0)
+    queryList()
   }
   const handleScroll = () => {
     if (scrollRef.current) {
@@ -52,30 +53,33 @@ const WithdrawalActivityPanel = (props: any) => {
         Toast('Unlock failed')
         console.log('----handleClaim exception', e)
       } finally { 
-        queryList(0)
-        setTabType('claim')
+        changeTab('claim')
       }
     }
   }
-  const queryList = async (type:number) => {
+  const queryList = async () => {
     setLoading(true)
+    console.log('----current', current, tabType)
     try {
       // 1 Pledge List
       // 0 can claim
       // -1 All
-      const {code, data, message, success}:any = await fetchStakingList({
-        userAddress: address,
-        type,
-        pageNumber: current,
-        pageSize: pageSize
-      })
-      const {content, totalElements, ...other} = data
-      if (success && code === 200) {
-        setData(content || [])
-        setTotal(totalElements)
-      } else {
-        setData([])
-        setTotal(0)
+      const typeVal = tabTypeKey[tabType]
+      if (typeVal >= 0) {
+        const {code, data, message, success}:any = await fetchStakingList({
+          userAddress: address,
+          type: typeVal,
+          pageNumber: current,
+          pageSize: pageSize
+        })
+        const {content, totalElements, ...other} = data
+        if (success && code === 200) {
+          setData(content || [])
+          setTotal(totalElements)
+        } else {
+          setData([])
+          setTotal(0)
+        }
       }
     } catch(e) {
       setData([])
@@ -93,19 +97,9 @@ const WithdrawalActivityPanel = (props: any) => {
     setCurrent(pageNum)
   }
   const reloadInit = (type: any = '') => {
-    if (!type) {
-      return
-    }
-    setCurrent(1)
-    if (type && type === 'reload') {
-      // pending -- 1; claim -- 0;
-      queryList(tabTypeKey[tabType])
-    } else {
-      if (['stake', 'unstake'].includes(type)) {
-        // set but not query
-        setTabType(type === 'unstake' ? 'claim' : 'pending')
-        initPage(type)
-      }
+    if (['stake', 'unstake'].includes(type)) {
+      // set but not query
+      initPage(type)
     }
   }
 
@@ -115,15 +109,18 @@ const WithdrawalActivityPanel = (props: any) => {
     setTokenInfo(tokenResult)
     if (type === 'unstake') {
       // query claim list
-      queryList(0)
+      changeTab('claim')
     } else if (type === '' || type === 'stake') {
       // query pledge list
-      queryList(1)
-    } else if (type === 'reload') {
-      queryList(tabType === 'claim' ? 0 : 1)
+      changeTab('pending')
     }
     setBlockNumber(Number(await web3SDK.getBlockNumber()))
   }
+
+  useEffect(() => {
+    queryList()
+  }, [current, tabType])
+
   useEffect(() => {
     initPage()
     eventBus.on('reload-init', reloadInit)
@@ -134,7 +131,7 @@ const WithdrawalActivityPanel = (props: any) => {
       element.removeEventListener('scroll', handleScroll);
       eventBus.off('reload-init', reloadInit)
     };
-  }, []);
+  },[]);
   return (
     <>
       <div className='com-panel withdraw-activity'>
@@ -144,9 +141,9 @@ const WithdrawalActivityPanel = (props: any) => {
             <div className={`switch-item ${tabType === 'pending' ? 'active' : ''}`} onClick={() => changeTab('pending')}>Pledge Record</div>
             <div className={`switch-item ${tabType === 'claim' ? 'active' : ''}`} onClick={() => changeTab('claim')}>Claim</div>
           </div>
-          <div className='box-reload' onClick={() => reloadInit('reload')}>
+          {/* <div className='box-reload' onClick={() => reloadInit('reload')}>
             <Replay fontSize={26} />Reload
-          </div>
+          </div> */}
         </div>
         <div ref={scrollRef} className='list-container'>
           { 

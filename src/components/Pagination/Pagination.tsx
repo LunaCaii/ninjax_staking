@@ -12,22 +12,32 @@ const Pagination = (props: any) => {
   const [pageShowNums, setPageShowNums] = useState<any>(pageMax >= 3 ? [1, 2, 3] : pageMax === 2 ? [1, 2] : pageMax === 1 ? [1] : [])
   console.log('Current maximum page number', pageMax, pageShowNums)
   const goToPage = (newPageNum: number) => {
+    if (pageMax > 3 && newPageNum <= pageMax - 1 && newPageNum >= 2) {
+      setPageShowNums([newPageNum-1,newPageNum,newPageNum+1])
+    }
     setPageNum(newPageNum)
     onChange(newPageNum)
   }
   const goToLastPage = () => {
     if (pageNum >= 2) {
-      if (pageMax === 3) {
-        setPageShowNums([1,2,3])
-      } else if (pageMax === 2) {
-        setPageShowNums([1,2])
-      } else if (pageMax === 1) {
-        setPageShowNums([1])
-      } else {
-        setPageShowNums([pageNum - 1, pageNum, pageNum + 1])
+      if (pageNum === 2) {
+        // to 1
+        setPageNum(pageNum - 1)
+        onChange(pageNum - 1)
+      } else if (pageNum > 2) {
+        // to > 1
+        setPageShowNums([pageNum - 2, pageNum - 1, pageNum])
+        setPageNum(pageNum - 1)
+        onChange(pageNum - 1)
       }
-      setPageNum(pageNum - 1)
-      onChange(pageNum - 1)
+    } else if (pageNum < 2) {
+      if (pageMax === 1) {
+        setPageShowNums([1])
+      } else if (pageMax === 2) {
+        setPageShowNums([1, 2])
+      } else if (pageMax === 3) {
+        setPageShowNums([1, 2, 3])
+      }
     }
   }
   const goToNextPage = () => {
@@ -36,7 +46,7 @@ const Pagination = (props: any) => {
       setPageShowNums([1,2])
       setPageNum(pageNum + 1)
       onChange(pageNum + 1)
-    }else if (pageMax === 1) {
+    } else if (pageMax === 1) {
       setPageShowNums([1])
       setPageNum(1)
       onChange(1)

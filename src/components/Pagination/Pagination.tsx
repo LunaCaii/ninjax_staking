@@ -16,16 +16,16 @@ const Pagination = (props: any) => {
     onChange(newPageNum)
   }
   const goToLastPage = () => {
-    if (pageMax === 2) {
-      setPageShowNums([1,2])
-      setPageNum(pageNum - 1)
-      onChange(pageNum - 1)
-    } else if (pageMax === 1) {
-      setPageShowNums([1])
-      setPageNum(1)
-      onChange(1)
-    } else if (pageNum >= 2) {
-      setPageShowNums([pageNum - 1, pageNum, pageNum + 1])
+    if (pageNum >= 2) {
+      if (pageMax === 3) {
+        setPageShowNums([1,2,3])
+      } else if (pageMax === 2) {
+        setPageShowNums([1,2])
+      } else if (pageMax === 1) {
+        setPageShowNums([1])
+      } else {
+        setPageShowNums([pageNum - 1, pageNum, pageNum + 1])
+      }
       setPageNum(pageNum - 1)
       onChange(pageNum - 1)
     }

@@ -68,7 +68,7 @@ const StakingPage = (props: any) => {
           <div className="com-staking-item-box">
             <div className="logo-name">
               <div className="logo">
-                <img src={ninjaxLogoSvg} alt="" width={50} />
+                <img src={`https://raw.githubusercontent.com/metabitLab/assets/main/blockchains/tabi/assets/${props?.initialData?.stakingToken}/logo.png`} alt="" width={50} />
               </div>
               <div className="name">{tokenInfo.symbol}</div>
             </div>
@@ -78,9 +78,9 @@ const StakingPage = (props: any) => {
               </p>
               <p className="label">Pending Rewards</p>
             </div>
-            <div className="harvest-btn">
-              {/* <button className={`harvest table-btn-ffbf6e ${pendingReward > 0 ? '' : 'disabled'}`} onClick={handleHarvest}>Harvest</button> */}
-            </div>
+            {/* <div className="harvest-btn">
+              <button className={`harvest table-btn-ffbf6e ${pendingReward > 0 ? '' : 'disabled'}`} onClick={handleHarvest}>Harvest</button>
+            </div> */}
           </div>
           <div className="line-h"></div>
           <div className="com-staking-item-box">
@@ -109,7 +109,7 @@ const StakingPage = (props: any) => {
             <StakingFormPanel {...props} />
           </div>
           <div className="table-panel-item staking-activity">
-            <WithdrawalActivityPanel />
+            <WithdrawalActivityPanel {...props} />
           </div>
         </div>
       </div>

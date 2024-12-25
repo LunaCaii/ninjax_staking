@@ -33,7 +33,7 @@ const WithdrawalActivityPanel = (props: any) => {
     // pending -- 1; claim -- 0;
     setCurrent(1)
     setTotal(0)
-    queryList()
+    // queryList()
   }
   const handleScroll = () => {
     if (scrollRef.current) {
@@ -156,7 +156,8 @@ const WithdrawalActivityPanel = (props: any) => {
                 <div className='com-staking-item-box table-line hu'>
                   <div className='logo-name'>
                     <div className='logo'>
-                      <img src={ninjaxLogoSvg} alt='' width={36} />
+                      {/* <img src={ninjaxLogoSvg} alt='' width={36} /> */}
+                      <img src={`https://raw.githubusercontent.com/metabitLab/assets/main/blockchains/tabi/assets/${props?.initialData?.stakingToken}/logo.png`} alt="" width={50} />
                     </div>
                     <div className='name'>{tokenInfo.symbol}</div>
                   </div>
